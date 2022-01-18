@@ -21,7 +21,7 @@ topic_id (fk) not null //@oneToMany
 location not null
 date not null
 time not null
-status (fk) not null //@OneToMany
+status_id (fk) not null //@OneToMany
 feedback
 
 
