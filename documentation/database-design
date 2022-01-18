@@ -1,0 +1,46 @@
+users
+id (pk)
+first_name not null
+last_name not null
+email unique not null
+company_team not null
+role (fk) not null /@ManyToMany
+topic (fk) not null /@ManyToMany
+
+
+roles
+id (pk)
+role_name not null
+
+
+sessions
+id (pk)
+coach_id (fk) not null //@oneToMany
+coachee_id (fk) not null //@oneToMany
+topic_id (fk) not null //@oneToMany
+location not null
+date not null
+time not null
+status (fk) not null //@OneToMany
+feedback
+
+
+session_status
+id (pk)
+status_name not null
+
+
+topic
+id (pk)
+topic_name not null
+
+
+users_role
+user_id
+role_id
+
+
+users_topic
+user_id
+topic_id
+
