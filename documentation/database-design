@@ -5,8 +5,7 @@ last_name not null
 email unique not null
 company_team not null
 role (fk) not null /@ManyToMany
-topic (fk) not null /@ManyToMany
-
+coach_information_id (fk)
 
 roles
 id (pk)
@@ -30,7 +29,7 @@ id (pk)
 status_name not null
 
 
-topic
+topics
 id (pk)
 topic_name not null
 
@@ -40,7 +39,14 @@ user_id
 role_id
 
 
-users_topic
-user_id
+coachinformation_topic
+coachinformation_id
 topic_id
+expertise
+
+coach_information
+id (pk)
+coach_id (fk to users)
+introduction
+availability
 
