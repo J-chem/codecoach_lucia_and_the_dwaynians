@@ -32,6 +32,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.team = team;
+        this.isCoach = false;
     }
 
     public User() {
