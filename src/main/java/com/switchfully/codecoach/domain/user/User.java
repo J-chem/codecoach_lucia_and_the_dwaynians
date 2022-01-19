@@ -27,12 +27,18 @@ public class User {
     @Column(name = "IS_COACH")
     private Boolean isCoach;
 
-    public User(String firstName, String lastName, String email, String team) {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "COACH_INFO_FK")
+    private CoachInfo coachInfo;
+
+
+    public User(String firstName, String lastName, String email, String team, CoachInfo coachInfo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.team = team;
         this.isCoach = false;
+        this.coachInfo = coachInfo;
     }
 
     public User() {
