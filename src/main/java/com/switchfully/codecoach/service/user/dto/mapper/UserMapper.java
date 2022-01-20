@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User map(CreateUserDto createUserDto){
+    public User map(CreateUserDto createUserDto) {
         return new User(
                 createUserDto.firstName(),
                 createUserDto.lastName(),
@@ -17,7 +17,7 @@ public class UserMapper {
         );
     }
 
-    public UserDto map(User user, String keycloakId){
+    public UserDto map(User user, String keycloakId) {
         return new UserDto(
                 user.getId(),
                 user.getFirstName(),

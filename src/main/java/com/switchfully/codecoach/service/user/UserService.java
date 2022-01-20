@@ -3,12 +3,12 @@ package com.switchfully.codecoach.service.user;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.security.KeycloakService;
+import com.switchfully.codecoach.service.security.Role;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
-import com.switchfully.codecoach.service.user.dto.UserDto;
 import com.switchfully.codecoach.service.user.dto.KeycloakUserDTO;
+import com.switchfully.codecoach.service.user.dto.UserDto;
 import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
-import com.switchfully.codecoach.service.security.Role;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,9 +36,10 @@ public class UserService {
     }
 
     private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {
-        if(createUserDto.firstName() == null || createUserDto.lastName() == null || createUserDto.email() == null || createUserDto.password() == null || createUserDto.team() == null) {
+        if (createUserDto.firstName() == null || createUserDto.lastName() == null || createUserDto.email() == null || createUserDto.password() == null || createUserDto.team() == null) {
             throw new IllegalArgumentException("Please provide input for all fields");
-        } return createUserDto;
+        }
+        return createUserDto;
     }
 
     private String addPersonToKeycloak(CreateUserDto createUserDto) {
