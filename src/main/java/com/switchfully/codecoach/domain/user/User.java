@@ -84,7 +84,11 @@ public class User {
         this.team = team;
     }
 
-    public void setCoach(Boolean coach) {
+    public void setIsCoach(Boolean coach) {
         isCoach = coach;
+    }
+
+    public void setCoachInfo(CoachInfo coachInfo) {
+        this.coachInfo = coachInfo;
     }
 }
