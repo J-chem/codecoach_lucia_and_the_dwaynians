@@ -1,84 +1,51 @@
 package com.switchfully.codecoach.api;
 
-import com.switchfully.codecoach.repository.UserRepository;
-import com.switchfully.codecoach.service.security.KeycloakService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
-import static io.restassured.http.ContentType.JSON;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@AutoConfigureMockMvc()
+@ActiveProfiles("test")
 class UserControllerEndToEndTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private KeycloakService keycloakService;
-    String url;
-    String token;
+    MockMvc mockMvc;
 
-
-    @BeforeAll
-    void setUp() {
-        url = "https://keycloak.switchfully.com/auth/realms/java-oct-2021/protocol/openid-connect/token";
-        token = RestAssured
-                .given()
-                .contentType("application/x-www-form-urlencoded; charset=utf-8")
-                .formParam("grant_type", "password")
-                .formParam("username", "najima@dwaynians.com")
-                .formParam("password", "password")
-                .formParam("client_id", "CodeCoach-Dwaynians")
-                .when()
-                .post(url)
-                .then()
-                .extract()
-                .path("access_token")
-                .toString();
-    }
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void endToEndRegisterUser() {
+    void endToEndRegisterUser() throws Exception {
         CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie@test.com",
                 "password",
                 "Douane");
 
-        RestAssured.defaultParser = Parser.JSON;
-        UserDto userDto = RestAssured
-                .given()
-                .accept(JSON)
-                .contentType(JSON)
-                .body(createUserDto)
-                .when()
-                .port(port)
-                .post("/users")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .as(UserDto.class);
+        ResultActions result = mockMvc.perform(
+                post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper
+                                .writeValueAsBytes(createUserDto))).andExpect(status().isCreated());
 
-        keycloakService.deleteUser(userDto.keycloakId());
+        String response = result.andReturn().getResponse().getContentAsString();
 
-        Assertions.assertThat(userDto.id()).isNotNull();
-        Assertions.assertThat(userDto.firstName()).isEqualTo("Laurie");
+        UserDto testUser = objectMapper.readValue(response, UserDto.class);
+
+        Assertions.assertThat(testUser.id()).isNotNull();
+        Assertions.assertThat(testUser.firstName()).isEqualTo("Laurie");
 
     }
 
- }
+}
