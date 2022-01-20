@@ -18,4 +18,12 @@ public class CoachInfo {
     @Column(name = "AVAILABILITY")
     private String availability;
 
+    public CoachInfo(String introduction, String availability) {
+        this.introduction = introduction;
+        this.availability = availability;
+    }
+
+    public CoachInfo() {
+
+    }
 }
