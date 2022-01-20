@@ -27,11 +27,18 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
-        User user = userMapper.map(createUserDto);
+
+        User user = userMapper.map(assertUserIsValid(createUserDto));
         userRepository.save(user);
         String keycloakId = addPersonToKeycloak(createUserDto);
 
-        return userMapper.map(userRepository.getById(user.getId()));
+        return userMapper.map(userRepository.getById(user.getId()), keycloakId);
+    }
+
+    private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {
+        if(createUserDto.firstName() == null || createUserDto.lastName() == null || createUserDto.email() == null || createUserDto.password() == null || createUserDto.team() == null) {
+            throw new IllegalArgumentException("Please provide input for all fields");
+        } return createUserDto;
     }
 
     private String addPersonToKeycloak(CreateUserDto createUserDto) {

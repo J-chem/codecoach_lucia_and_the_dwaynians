@@ -17,14 +17,15 @@ public class UserMapper {
         );
     }
 
-    public UserDto map(User user){
+    public UserDto map(User user, String keycloakId){
         return new UserDto(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 user.getTeam(),
-                user.isCoach()
+                user.isCoach(),
+                keycloakId
         );
     }
 }
