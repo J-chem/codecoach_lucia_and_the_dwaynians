@@ -11,7 +11,10 @@ import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class UserService {
 
     private final UserMapper userMapper;
@@ -27,12 +30,10 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
-
         User user = userMapper.map(assertUserIsValid(createUserDto));
         userRepository.save(user);
-        String keycloakId = addPersonToKeycloak(createUserDto);
-
-        return userMapper.map(userRepository.getById(user.getId()), keycloakId);
+        addPersonToKeycloak(createUserDto);
+        return userMapper.map(userRepository.getById(user.getId()));
     }
 
     private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {

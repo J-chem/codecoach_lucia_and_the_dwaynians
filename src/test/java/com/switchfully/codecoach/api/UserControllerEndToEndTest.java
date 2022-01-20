@@ -45,7 +45,10 @@ class UserControllerEndToEndTest {
 
         Assertions.assertThat(testUser.id()).isNotNull();
         Assertions.assertThat(testUser.firstName()).isEqualTo("Laurie");
-
+        Assertions.assertThat(testUser.lastName()).isEqualTo("TestingIsCool");
+        Assertions.assertThat(testUser.email()).isEqualTo("laurie@test.com");
+        Assertions.assertThat(testUser.team()).isEqualTo("Douane");
+        Assertions.assertThat(testUser.isCoach()).isFalse();
     }
 
 }
