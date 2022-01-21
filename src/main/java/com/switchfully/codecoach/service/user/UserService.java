@@ -54,8 +54,8 @@ public class UserService {
         return keycloakService.addUser(keycloakUserDTO);
     }
 
-    public void becomeACoach(UUID userId) {
-        User user = userRepository.getById(userId);
+    public void becomeACoach(String userName) {
+        User user = userRepository.findByEmail(userName);
         CoachInfo coachInfo = new CoachInfo(null, null);
         coachInfoRepository.save(coachInfo);
         user.setIsCoach(true);

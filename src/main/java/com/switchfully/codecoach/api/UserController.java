@@ -22,11 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{userName}")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.OK)
-    public void becomeACoach(@PathVariable("id") UUID userId) {
-        userService.becomeACoach(userId);
+    public void becomeACoach(@PathVariable("userName") String userName) {
+        userService.becomeACoach(userName);
     }
 
 
