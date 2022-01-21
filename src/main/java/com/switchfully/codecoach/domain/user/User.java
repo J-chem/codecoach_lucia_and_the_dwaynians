@@ -32,13 +32,13 @@ public class User {
     private CoachInfo coachInfo;
 
 
-    public User(String firstName, String lastName, String email, String team, CoachInfo coachInfo) {
+    public User(String firstName, String lastName, String email, String team) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.team = team;
         this.isCoach = false;
-        this.coachInfo = coachInfo;
+        this.coachInfo = null;
     }
 
     public User() {
@@ -67,6 +67,10 @@ public class User {
 
     public Boolean isCoach() {
         return isCoach;
+    }
+
+    public CoachInfo getCoachInfo() {
+        return coachInfo;
     }
 
     public void setFirstName(String firstName) {
