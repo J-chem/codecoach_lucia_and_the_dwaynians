@@ -1,6 +1,5 @@
 package com.switchfully.codecoach.api;
 
-import com.switchfully.codecoach.service.user.CoachInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,23 +7,34 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import com.switchfully.codecoach.service.user.UserService;
+import com.switchfully.codecoach.service.user.dto.CreateUserDto;
+import com.switchfully.codecoach.service.user.dto.UserDto;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class UserController {
-    private final CoachInfoService coachInfoService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(CoachInfoService coachInfoService) {
-        this.coachInfoService = coachInfoService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.OK)
     public void becomeACoach(@PathVariable("id") UUID userId) {
-        coachInfoService.becomeACoach(userId);
+        userService.becomeACoach(userId);
     }
 
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
+        UserDto createdUser = userService.createUser(createUserDto);
+        return createdUser;
+
+    }
 }

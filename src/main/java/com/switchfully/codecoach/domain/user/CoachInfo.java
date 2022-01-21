@@ -26,4 +26,16 @@ public class CoachInfo {
     public CoachInfo() {
 
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
 }
