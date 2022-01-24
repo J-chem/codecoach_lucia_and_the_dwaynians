@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -24,7 +25,7 @@ public class KeycloakServiceStub implements KeycloakService {
     }
 
     @Override
-    public void updateUserRoleToCoach(String userName) {
+    public void updateUserRoleToCoach(UUID uuid) {
 
     }
 }

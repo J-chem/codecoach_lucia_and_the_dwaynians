@@ -75,7 +75,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/users").antMatchers(HttpMethod.POST, "/error");
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/users/*");
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @Bean

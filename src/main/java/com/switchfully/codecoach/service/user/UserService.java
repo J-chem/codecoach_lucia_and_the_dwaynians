@@ -54,13 +54,13 @@ public class UserService {
         return keycloakService.addUser(keycloakUserDTO);
     }
 
-    public void becomeACoach(String userName) {
-        User user = userRepository.findByEmail(userName);
+    public void becomeACoach(UUID uuid) {
+        User user = userRepository.getById(uuid);
         CoachInfo coachInfo = new CoachInfo(null, null);
         coachInfoRepository.save(coachInfo);
         user.setIsCoach(true);
         user.setCoachInfo(coachInfo);
-        keycloakService.updateUserRoleToCoach(user.getEmail());
+        keycloakService.updateUserRoleToCoach(uuid);
     }
 
 }

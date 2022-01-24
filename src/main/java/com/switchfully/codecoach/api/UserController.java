@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
@@ -20,11 +22,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping(path = "/{userName}")
+//    @PutMapping(path = "/{userName}")
+//    @PreAuthorize("hasAuthority('BECOME_A_COACH')")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void becomeACoach(@PathVariable("userName") String userName) {
+//        userService.becomeACoach(userName);
+//    }
+
+    @PostMapping(path = "/{id}/become-a-coach")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.OK)
-    public void becomeACoach(@PathVariable("userName") String userName) {
-        userService.becomeACoach(userName);
+    public void becomeACoach(@PathVariable("id") UUID uuid) {
+        userService.becomeACoach(uuid);
     }
 
 

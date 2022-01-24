@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Profile("!test")
@@ -45,14 +46,9 @@ public class KeycloakServiceImpl implements KeycloakService {
         getUser(userId).remove();
     }
 
-    public void updateUserRoleToCoach(String userName) {
-        List<UserRepresentation> search = realmResource.users().search(userName);
+    public void updateUserRoleToCoach(UUID uuid) {
 
-        if (search.isEmpty()) {
-            throw new RuntimeException("UserName doesn't exists in Keycloack");
-        }
-
-        UserResource user = getUser(search.get(0).getId());
+        UserResource user = getUser(uuid.toString());
         addRole(user, Role.COACH.getLabel());
     }
 
