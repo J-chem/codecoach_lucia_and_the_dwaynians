@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,6 +37,7 @@ class UserControllerEndToEndTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
+    @WithAnonymousUser
     void endToEndRegisterUser() throws Exception {
         CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie@test.com",
@@ -88,7 +89,8 @@ class UserControllerEndToEndTest {
         UserDto userDto = objectMapper.readValue(response, UserDto.class);
 
         System.out.println(userDto.firstName() + userDto.id());
-        mockMvc.perform(post("/users/" + userDto.id() + "/become-a-coach")).andExpect(status().isCreated());
+        mockMvc.perform(post("/users/" + userDto.id() + "/become-a-coach"))
+                .andExpect(status().isCreated());
 
         User user = userRepository.getById(userDto.id());
 
