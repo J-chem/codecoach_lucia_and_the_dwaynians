@@ -12,6 +12,8 @@ import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 @Service
@@ -31,13 +33,16 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
-        User user = userMapper.map(assertUserIsValid(createUserDto));
+
+        CreateUserDto validUser = assertUserIsValid(createUserDto);
+        String keycloakId = addPersonToKeycloak(validUser);
+        User user = userMapper.map(validUser, UUID.fromString(keycloakId));
         if (userRepository.findByEmail(createUserDto.email()) != null){
             throw new UserAlreadyExistsException("Email is already in use");
         }
         userRepository.save(user);
-        addPersonToKeycloak(createUserDto);
-        return userMapper.map(userRepository.getById(user.getId()));
+
+        return userMapper.map(userRepository.getById(user.getId()), keycloakId);
     }
 
     private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {

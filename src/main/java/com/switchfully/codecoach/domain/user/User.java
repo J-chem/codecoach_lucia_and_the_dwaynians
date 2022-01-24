@@ -8,7 +8,6 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private UUID id;
 
@@ -27,7 +26,8 @@ public class User {
     @Column(name = "IS_COACH")
     private Boolean isCoach;
 
-    public User(String firstName, String lastName, String email, String team) {
+    public User(UUID id, String firstName, String lastName, String email, String team) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
