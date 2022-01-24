@@ -42,7 +42,7 @@ public class UserService {
         }
         userRepository.save(user);
 
-        return userMapper.map(userRepository.getById(user.getId()), keycloakId);
+        return userMapper.map(userRepository.getById(user.getId()));
     }
 
     private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {
