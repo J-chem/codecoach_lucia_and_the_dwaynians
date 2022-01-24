@@ -87,7 +87,8 @@ class UserControllerEndToEndTest {
         String response = result.andReturn().getResponse().getContentAsString();
         UserDto userDto = objectMapper.readValue(response, UserDto.class);
 
-        mockMvc.perform(put("/users/" + userDto.email())).andExpect(status().isOk());
+        System.out.println(userDto.firstName() + userDto.id());
+        mockMvc.perform(post("/users/" + userDto.id() + "/become-a-coach")).andExpect(status().isCreated());
 
         User user = userRepository.getById(userDto.id());
 

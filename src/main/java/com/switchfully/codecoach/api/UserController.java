@@ -22,20 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PutMapping(path = "/{userName}")
-//    @PreAuthorize("hasAuthority('BECOME_A_COACH')")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void becomeACoach(@PathVariable("userName") String userName) {
-//        userService.becomeACoach(userName);
-//    }
-
     @PostMapping(path = "/{id}/become-a-coach")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void becomeACoach(@PathVariable("id") UUID uuid) {
+        System.out.println(uuid);
         userService.becomeACoach(uuid);
     }
-
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
