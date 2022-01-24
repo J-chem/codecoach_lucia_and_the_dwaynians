@@ -1,6 +1,7 @@
 package com.switchfully.codecoach.service.user;
 
 import com.switchfully.codecoach.domain.user.User;
+import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.security.KeycloakService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
@@ -29,6 +30,9 @@ public class UserService {
     public UserDto createUser(CreateUserDto createUserDto) {
 
         User user = userMapper.map(assertUserIsValid(createUserDto));
+        if (userRepository.findByEmail(createUserDto.email()) != null){
+            throw new UserAlreadyExistsException("Email is already in use");
+        }
         userRepository.save(user);
         String keycloakId = addPersonToKeycloak(createUserDto);
 
