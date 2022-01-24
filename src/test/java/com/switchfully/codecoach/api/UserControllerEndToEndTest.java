@@ -11,19 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc()
-@ActiveProfiles("test")
 @Transactional
+@ActiveProfiles("test")
 class UserControllerEndToEndTest {
 
     @Autowired
@@ -66,6 +68,34 @@ class UserControllerEndToEndTest {
         Assertions.assertThat(user.getTeam()).isEqualTo("Douane");
         Assertions.assertThat(user.isCoach()).isFalse();
 
+    }
+
+    @Test
+    @WithMockUser(authorities = "BECOME_A_COACH")
+    void becomeAComeCoach() throws Exception {
+        CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
+                "laurie2@test.com",
+                "password",
+                "Douane");
+
+        ResultActions result = mockMvc.perform(
+                post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper
+                                .writeValueAsBytes(createUserDto))).andExpect(status().isCreated());
+
+        String response = result.andReturn().getResponse().getContentAsString();
+        UserDto userDto = objectMapper.readValue(response, UserDto.class);
+
+        mockMvc.perform(put("/users/" + userDto.email())).andExpect(status().isOk());
+
+        User user = userRepository.getById(userDto.id());
+
+        Assertions.assertThat(user.isCoach()).isTrue();
+        Assertions.assertThat(user.getCoachInfo()).isNotNull();
+        Assertions.assertThat(user.getCoachInfo().getId()).isNotNull();
+        Assertions.assertThat(user.getCoachInfo().getAvailability()).isNull();
+        Assertions.assertThat(user.getCoachInfo().getIntroduction()).isNull();
     }
 
 }

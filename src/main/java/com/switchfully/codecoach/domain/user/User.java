@@ -26,6 +26,11 @@ public class User {
     @Column(name = "IS_COACH")
     private Boolean isCoach;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "COACH_INFO_FK")
+    private CoachInfo coachInfo;
+
+
     public User(UUID id, String firstName, String lastName, String email, String team) {
         this.id = id;
         this.firstName = firstName;
@@ -33,6 +38,7 @@ public class User {
         this.email = email;
         this.team = team;
         this.isCoach = false;
+        this.coachInfo = null;
     }
 
     public User() {
@@ -63,6 +69,10 @@ public class User {
         return isCoach;
     }
 
+    public CoachInfo getCoachInfo() {
+        return coachInfo;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -79,7 +89,11 @@ public class User {
         this.team = team;
     }
 
-    public void setCoach(Boolean coach) {
+    public void setIsCoach(Boolean coach) {
         isCoach = coach;
+    }
+
+    public void setCoachInfo(CoachInfo coachInfo) {
+        this.coachInfo = coachInfo;
     }
 }
