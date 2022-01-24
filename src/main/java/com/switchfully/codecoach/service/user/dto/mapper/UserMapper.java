@@ -5,11 +5,14 @@ import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class UserMapper {
 
-    public User map(CreateUserDto createUserDto) {
+    public User map(CreateUserDto createUserDto, UUID id) {
         return new User(
+                id,
                 createUserDto.firstName(),
                 createUserDto.lastName(),
                 createUserDto.email(),
