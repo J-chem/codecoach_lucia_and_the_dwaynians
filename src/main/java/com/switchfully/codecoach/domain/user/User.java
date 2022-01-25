@@ -96,4 +96,8 @@ public class User {
     public void setCoachInfo(CoachInfo coachInfo) {
         this.coachInfo = coachInfo;
     }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }

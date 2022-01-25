@@ -17,8 +17,9 @@ public class Session {
     @Column(name = "SESSION_ID")
     private UUID id;
 
-    @Column(name = "TOPIC")
-    private String topic;
+//
+//    @JoinColumn(name = "FK_TOPIC_ID")
+//    private Topic topic;
 
     @Column(name = "DATE")
     private LocalDate date;
@@ -45,12 +46,15 @@ public class Session {
     @JoinColumn(name = "FK_COACHEE_ID")
     private User coachee;
 
-    public Session(String topic, LocalDate date, LocalTime time, Location location, String remarks) {
-        this.topic = topic;
+    public Session(LocalDate date, LocalTime time, Location location, String remarks, Status status, User coach, User coachee) {
+//        this.topic = topic;
         this.date = date;
         this.time = time;
         this.location = location;
         this.remarks = remarks;
+        this.status = status;
+        this.coach = coach;
+        this.coachee = coachee;
     }
 
     // Hibernate required
@@ -61,9 +65,9 @@ public class Session {
         return id;
     }
 
-    public String getTopic() {
-        return topic;
-    }
+//    public String getTopic() {
+//        return topic;
+//    }
 
     public LocalDate getDate() {
         return date;
@@ -92,4 +96,5 @@ public class Session {
     public User getCoachee() {
         return coachee;
     }
+
 }
