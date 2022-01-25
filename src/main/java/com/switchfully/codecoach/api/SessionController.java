@@ -5,6 +5,7 @@ import com.switchfully.codecoach.service.session.dto.CreateSessionDto;
 import com.switchfully.codecoach.service.session.dto.SessionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class SessionController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('REQUEST_SESSION')")
     public SessionDto requestSession(@RequestBody CreateSessionDto createSessionDto) {
         return sessionService.addSession(createSessionDto);
     }
