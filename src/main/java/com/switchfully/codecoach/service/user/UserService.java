@@ -5,6 +5,7 @@ import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.UserRepository;
+import com.switchfully.codecoach.service.coach.dto.CoachDTO;
 import com.switchfully.codecoach.service.security.KeycloakService;
 import com.switchfully.codecoach.service.security.Role;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
@@ -14,6 +15,7 @@ import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -72,4 +74,8 @@ public class UserService {
         keycloakService.updateUserRoleToCoach(uuid);
     }
 
+    public List<CoachDTO> getByCoachesStatus(boolean isCoach) {
+        //List<User> userRepository.getByCoachesStatus(isCoach);
+        return null;
+    }
 }

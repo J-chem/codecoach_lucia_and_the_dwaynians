@@ -1,5 +1,7 @@
 package com.switchfully.codecoach.api;
 
+import com.switchfully.codecoach.domain.user.User;
+import com.switchfully.codecoach.service.coach.dto.CoachDTO;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,6 +38,12 @@ public class UserController {
     public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
         UserDto createdUser = userService.createUser(createUserDto);
         return createdUser;
+    }
 
+    @GetMapping(path = "isCoach")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CoachDTO> getAllCoaches(@RequestParam boolean isCoach){
+        List<CoachDTO> coaches = userService.getByCoachesStatus(isCoach);
+        return coaches;
     }
 }
