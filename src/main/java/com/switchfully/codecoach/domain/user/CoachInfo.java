@@ -1,6 +1,7 @@
 package com.switchfully.codecoach.domain.user;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +18,12 @@ public class CoachInfo {
 
     @Column(name = "AVAILABILITY")
     private String availability;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "COACH_INFO_ID")
+    private List<CoachInfoTopic> coachInfoTopics;
+
+//     method get topics -> convert Coachinfotopics via stream, use dto
 
     public CoachInfo(String introduction, String availability) {
         this.introduction = introduction;
