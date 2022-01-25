@@ -80,4 +80,7 @@ public class UserService {
         //List<CoachInfo> coachInfos = userRepository.getAllCoachesInfo();
         return CoachDTOMapper.map(coaches, coachInfos);
     }
+    public UserDto getUserById(UUID uuid) {
+        return userMapper.map(userRepository.getById(uuid));
+    }
 }

@@ -25,6 +25,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping(path = "/{id}")
+    @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
+        UserDto userDto = userService.getUserById(uuid);
+        return userDto;
+    }
+
     @PostMapping(path = "/{id}/become-a-coach")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,4 +54,6 @@ public class UserController {
         List<CoachDTO> coaches = userService.getByCoachesStatus(isCoach);
         return coaches;
     }
+
+
 }

@@ -23,6 +23,14 @@ public class CoachInfoTopic {
     @Column(name = "EXPERTISE")
     private Expertise expertise;
 
+    public UUID getCoachInfoTopicId() {
+        return coachInfoTopicId;
+    }
+
+    public CoachInfo getCoachInfo() {
+        return coachInfo;
+    }
+
     public Topic getTopic() {
         return topic;
     }
