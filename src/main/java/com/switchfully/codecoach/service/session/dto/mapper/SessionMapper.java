@@ -17,7 +17,6 @@ public class SessionMapper {
                 createSessionDto.time(),
                 createSessionDto.location(),
                 createSessionDto.remarks(),
-                createSessionDto.status(),
                 coach,
                 coachee
         );

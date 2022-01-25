@@ -22,10 +22,10 @@ public class Session {
     @JoinColumn(name = "FK_TOPIC_ID")
     private Topic topic;
 
-    @Column(name = "DATE")
+    @Column(name = "SESSION_DATE")
     private LocalDate date;
 
-    @Column(name = "TIME")
+    @Column(name = "SESSION_TIME")
     private LocalTime time;
 
     @Enumerated(value = EnumType.STRING)
@@ -47,13 +47,13 @@ public class Session {
     @JoinColumn(name = "FK_COACHEE_ID")
     private User coachee;
 
-    public Session(Topic topic, LocalDate date, LocalTime time, Location location, String remarks, Status status, User coach, User coachee) {
+    public Session(Topic topic, LocalDate date, LocalTime time, Location location, String remarks, User coach, User coachee) {
         this.topic = topic;
         this.date = date;
         this.time = time;
         this.location = location;
         this.remarks = remarks;
-        this.status = status;
+        this.status = Status.REQUESTED;
         this.coach = coach;
         this.coachee = coachee;
     }
