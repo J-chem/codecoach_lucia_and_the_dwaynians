@@ -45,4 +45,8 @@ public class CoachInfo {
     public String getAvailability() {
         return availability;
     }
+
+    public List<CoachInfoTopic> getCoachInfoTopics() {
+        return coachInfoTopics;
+    }
 }

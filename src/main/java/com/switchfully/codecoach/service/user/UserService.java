@@ -72,4 +72,7 @@ public class UserService {
         keycloakService.updateUserRoleToCoach(uuid);
     }
 
+    public UserDto getUserById(UUID uuid) {
+        return userMapper.map(userRepository.getById(uuid));
+    }
 }

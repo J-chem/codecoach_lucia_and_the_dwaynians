@@ -7,6 +7,16 @@ import java.util.UUID;
 @Table(name = "COACH_INFO_TOPIC")
 public class CoachInfoTopic {
 
+    public CoachInfoTopic(UUID coachInfoTopicId, CoachInfo coachInfo, Topic topic, Expertise expertise) {
+        this.coachInfoTopicId = coachInfoTopicId;
+        this.coachInfo = coachInfo;
+        this.topic = topic;
+        this.expertise = expertise;
+    }
+
+    public CoachInfoTopic() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "COACH_INFO_TOPIC_ID")
@@ -23,4 +33,19 @@ public class CoachInfoTopic {
     @Column(name = "EXPERTISE")
     private Expertise expertise;
 
+    public UUID getCoachInfoTopicId() {
+        return coachInfoTopicId;
+    }
+
+    public CoachInfo getCoachInfo() {
+        return coachInfo;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Expertise getExpertise() {
+        return expertise;
+    }
 }

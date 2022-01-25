@@ -94,6 +94,8 @@ class UserControllerEndToEndTest {
 
         User user = userRepository.getById(userDto.id());
 
+        System.out.println(user);
+
         Assertions.assertThat(user.isCoach()).isTrue();
         Assertions.assertThat(user.getCoachInfo()).isNotNull();
         Assertions.assertThat(user.getCoachInfo().getId()).isNotNull();

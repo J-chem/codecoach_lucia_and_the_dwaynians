@@ -15,4 +15,11 @@ public class Topic {
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
+    public UUID getTopicId() {
+        return topicId;
+    }
+
+    public TopicName getTopicName() {
+        return topicName;
+    }
 }
