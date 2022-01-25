@@ -15,4 +15,7 @@ public class Topic {
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
+    public TopicName getTopicName() {
+        return topicName;
+    }
 }

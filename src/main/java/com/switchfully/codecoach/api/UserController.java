@@ -40,7 +40,7 @@ public class UserController {
         return createdUser;
     }
 
-    @GetMapping(path = "isCoach")
+    @GetMapping(path = "coach")
     @ResponseStatus(HttpStatus.OK)
     public List<CoachDTO> getAllCoaches(@RequestParam boolean isCoach){
         List<CoachDTO> coaches = userService.getByCoachesStatus(isCoach);

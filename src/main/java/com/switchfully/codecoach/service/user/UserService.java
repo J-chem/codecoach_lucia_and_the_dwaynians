@@ -11,6 +11,7 @@ import com.switchfully.codecoach.service.security.Role;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.KeycloakUserDTO;
 import com.switchfully.codecoach.service.user.dto.UserDto;
+import com.switchfully.codecoach.service.user.dto.mapper.CoachDTOMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
 import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,8 @@ public class UserService {
     }
 
     public List<CoachDTO> getByCoachesStatus(boolean isCoach) {
-        //List<User> userRepository.getByCoachesStatus(isCoach);
-        return null;
+        List<User> coaches = userRepository.getByIsCoach(isCoach);
+        //List<CoachInfo> coachInfos = userRepository.getAllCoachesInfo();
+        return CoachDTOMapper.map(coaches, coachInfos);
     }
 }

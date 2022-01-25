@@ -23,4 +23,11 @@ public class CoachInfoTopic {
     @Column(name = "EXPERTISE")
     private Expertise expertise;
 
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Expertise getExpertise() {
+        return expertise;
+    }
 }
