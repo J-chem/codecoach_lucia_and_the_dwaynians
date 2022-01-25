@@ -1,5 +1,6 @@
 package com.switchfully.codecoach.domain.session;
 
+import com.switchfully.codecoach.domain.user.Topic;
 import com.switchfully.codecoach.domain.user.User;
 
 
@@ -17,9 +18,9 @@ public class Session {
     @Column(name = "SESSION_ID")
     private UUID id;
 
-//
-//    @JoinColumn(name = "FK_TOPIC_ID")
-//    private Topic topic;
+    @ManyToOne
+    @JoinColumn(name = "FK_TOPIC_ID")
+    private Topic topic;
 
     @Column(name = "DATE")
     private LocalDate date;
@@ -46,8 +47,8 @@ public class Session {
     @JoinColumn(name = "FK_COACHEE_ID")
     private User coachee;
 
-    public Session(LocalDate date, LocalTime time, Location location, String remarks, Status status, User coach, User coachee) {
-//        this.topic = topic;
+    public Session(Topic topic, LocalDate date, LocalTime time, Location location, String remarks, Status status, User coach, User coachee) {
+        this.topic = topic;
         this.date = date;
         this.time = time;
         this.location = location;
@@ -65,9 +66,9 @@ public class Session {
         return id;
     }
 
-//    public String getTopic() {
-//        return topic;
-//    }
+    public Topic getTopic() {
+        return topic;
+    }
 
     public LocalDate getDate() {
         return date;

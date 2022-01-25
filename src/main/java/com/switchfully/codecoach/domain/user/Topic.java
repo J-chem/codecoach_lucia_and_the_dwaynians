@@ -11,8 +11,12 @@ public class Topic {
     @Column(name = "TOPIC_ID")
     private UUID topicId;
 
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
+
+    public String getTopicName() {
+        return topicName.toString();
+    }
 }
