@@ -1,9 +1,11 @@
 package com.switchfully.codecoach.service.user;
 
 import com.switchfully.codecoach.domain.user.CoachInfo;
+import com.switchfully.codecoach.domain.user.CoachInfoTopic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.CoachInfoRepository;
+import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.coach.dto.CoachDTO;
 import com.switchfully.codecoach.service.security.KeycloakService;
@@ -31,14 +33,16 @@ public class UserService {
     private final KeycloakMapper keycloakMapper;
     private final KeycloakService keycloakService;
     private final CoachInfoRepository coachInfoRepository;
+    private final CoachInfoTopicRepository coachInfoTopicRepository;
 
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
-                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository) {
+                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository, CoachInfoTopicRepository coachInfoTopicRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.keycloakMapper = keycloakMapper;
         this.keycloakService = keycloakService;
         this.coachInfoRepository = coachInfoRepository;
+        this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
@@ -77,7 +81,7 @@ public class UserService {
 
     public List<CoachDTO> getByCoachesStatus(boolean isCoach) {
         List<User> coaches = userRepository.getByIsCoach(isCoach);
-        //List<CoachInfo> coachInfos = userRepository.getAllCoachesInfo();
+        List<CoachInfoTopic> coachInfos = coachInfoTopicRepository.findAll();
         return CoachDTOMapper.map(coaches, coachInfos);
     }
     public UserDto getUserById(UUID uuid) {

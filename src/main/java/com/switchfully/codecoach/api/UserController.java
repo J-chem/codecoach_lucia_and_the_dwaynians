@@ -48,10 +48,11 @@ public class UserController {
         return createdUser;
     }
 
-    @GetMapping(path = "coach")
+    @GetMapping(params = "coach")
     @ResponseStatus(HttpStatus.OK)
-    public List<CoachDTO> getAllCoaches(@RequestParam boolean isCoach){
-        List<CoachDTO> coaches = userService.getByCoachesStatus(isCoach);
+    @PreAuthorize("hasAuthority('REQUEST_SESSION')")
+    public List<CoachDTO> getAllCoaches(@RequestParam boolean coach){
+        List<CoachDTO> coaches = userService.getByCoachesStatus(coach);
         return coaches;
     }
 
