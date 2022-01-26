@@ -35,6 +35,7 @@ public class UserService {
     private final CoachInfoRepository coachInfoRepository;
     private final CoachInfoTopicRepository coachInfoTopicRepository;
 
+
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
                        KeycloakService keycloakService, CoachInfoRepository coachInfoRepository, CoachInfoTopicRepository coachInfoTopicRepository) {
         this.userMapper = userMapper;
