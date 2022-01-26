@@ -1,6 +1,7 @@
 package com.switchfully.codecoach.domain.user;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class CoachInfo {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "COACH_INFO_ID")
-    private List<CoachInfoTopic> coachInfoTopics;
+    private List<CoachInfoTopic> coachInfoTopics = new ArrayList<>();
 
 //     method get topics -> convert Coachinfotopics via stream, use dto
 
