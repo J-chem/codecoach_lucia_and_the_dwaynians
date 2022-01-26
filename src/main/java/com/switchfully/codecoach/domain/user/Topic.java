@@ -15,8 +15,20 @@ public class Topic {
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
+    public Topic(TopicName topicName) {
+        this.topicId = UUID.randomUUID();
+        this.topicName = topicName;
+    }
+
+    public Topic() {
+
+    }
 
     public String getTopicName() {
         return topicName.toString();
+    }
+
+    public UUID getTopicId() {
+        return topicId;
     }
 }
