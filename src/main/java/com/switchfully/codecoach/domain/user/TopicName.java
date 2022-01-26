@@ -1,7 +1,7 @@
 package com.switchfully.codecoach.domain.user;
 
 public enum TopicName {
-    MATHEMATICS,
+    ANGULAR,
     JAVA,
-    BIOLOGY
+    TYPESCRIPT
 }
