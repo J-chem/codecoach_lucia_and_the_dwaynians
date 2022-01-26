@@ -1,6 +1,5 @@
 package com.switchfully.codecoach.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.switchfully.codecoach.domain.session.Location;
