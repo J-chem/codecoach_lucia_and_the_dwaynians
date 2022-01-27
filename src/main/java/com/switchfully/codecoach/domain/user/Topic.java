@@ -11,7 +11,7 @@ public class Topic {
     @Column(name = "TOPIC_ID")
     private UUID topicId;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 

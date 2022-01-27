@@ -23,28 +23,26 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
+    @PreAuthorize("hasAuthority('ACCESS_PROFILE')")
     @ResponseStatus(HttpStatus.OK)
     public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
-        UserDto userDto = userService.getUserById(uuid);
-        return userDto;
+        return userService.getUserById(uuid);
     }
 
     @PostMapping(path = "/{id}/become-a-coach")
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.CREATED)
     public void becomeACoach(@PathVariable("id") UUID uuid) {
-        System.out.println(uuid);
         userService.becomeACoach(uuid);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
-        UserDto createdUser = userService.createUser(createUserDto);
-        return createdUser;
-
+        return userService.createUser(createUserDto);
     }
+
+
 
 
 }
