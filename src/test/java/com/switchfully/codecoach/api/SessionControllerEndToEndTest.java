@@ -58,7 +58,7 @@ public class SessionControllerEndToEndTest {
 
     @BeforeEach
     void setUp() {
-        topic = new Topic(TopicName.JAVA);
+        topic = new Topic(UUID.randomUUID(),TopicName.JAVA);
         topicRepository.save(topic);
 
         coachee = new User(UUID.randomUUID(), "Jon", "Snow", "jon@snow.com", "team");
