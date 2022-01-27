@@ -15,14 +15,12 @@ public class Topic {
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
-    public Topic(TopicName topicName) {
-        this.topicId = UUID.randomUUID();
-        this.topicName = topicName;
+    public Topic() {
     }
 
-    //Hibernate required
-    public Topic() {
-
+    public Topic(UUID topicId, TopicName topicName) {
+        this.topicId = topicId;
+        this.topicName = topicName;
     }
 
     public UUID getTopicId() {
@@ -32,5 +30,4 @@ public class Topic {
     public TopicName getTopicName() {
         return topicName;
     }
-
 }
