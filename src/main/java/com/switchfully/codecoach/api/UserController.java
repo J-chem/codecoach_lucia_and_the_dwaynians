@@ -27,8 +27,8 @@ public class UserController {
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
-        UserDto userDto = userService.getUserById(uuid);
+    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid) {
+        UserDto userDto = userService.getUserDtoById(uuid);
         return userDto;
     }
 
@@ -50,10 +50,8 @@ public class UserController {
     @GetMapping(params = "coach")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
-    public List<CoachDto> getAllCoaches(@RequestParam boolean coach){
+    public List<CoachDto> getAllCoaches(@RequestParam boolean coach) {
         List<CoachDto> coaches = userService.getByCoachesStatus(coach);
         return coaches;
     }
-
-
 }

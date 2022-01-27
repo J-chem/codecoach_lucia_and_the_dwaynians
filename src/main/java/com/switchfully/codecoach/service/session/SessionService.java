@@ -1,7 +1,7 @@
 package com.switchfully.codecoach.service.session;
 
 import com.switchfully.codecoach.domain.session.Session;
-import com.switchfully.codecoach.domain.user.Topic;
+import com.switchfully.codecoach.domain.topic.Topic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.SessionRepository;
 import com.switchfully.codecoach.repository.TopicRepository;

@@ -2,11 +2,11 @@ package com.switchfully.codecoach.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
 import com.switchfully.codecoach.domain.session.Location;
 import com.switchfully.codecoach.domain.session.Status;
-import com.switchfully.codecoach.domain.user.CoachInfo;
-import com.switchfully.codecoach.domain.user.Topic;
-import com.switchfully.codecoach.domain.user.TopicName;
+import com.switchfully.codecoach.domain.topic.Topic;
+import com.switchfully.codecoach.domain.topic.TopicName;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.TopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
@@ -58,7 +58,7 @@ public class SessionControllerEndToEndTest {
 
     @BeforeEach
     void setUp() {
-        topic = new Topic(TopicName.MATHEMATICS);
+        topic = new Topic(TopicName.JAVA);
         topicRepository.save(topic);
 
         coachee = new User(UUID.randomUUID(), "Jon", "Snow", "jon@snow.com", "team");
@@ -91,7 +91,7 @@ public class SessionControllerEndToEndTest {
         Assertions.assertThat(resultSessionDto.date()).isEqualTo(date);
         Assertions.assertThat(resultSessionDto.time()).isEqualTo(time);
         Assertions.assertThat(resultSessionDto.coachFullName()).isEqualTo(coach.getFullName());
-        Assertions.assertThat(resultSessionDto.topicName()).isEqualTo(topic.getTopicName());
+        Assertions.assertThat(resultSessionDto.topicName()).isEqualTo(topic.getTopicName().name());
     }
 
 }

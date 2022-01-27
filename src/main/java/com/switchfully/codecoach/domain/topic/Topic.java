@@ -1,7 +1,5 @@
 package com.switchfully.codecoach.domain.topic;
 
-import com.switchfully.codecoach.domain.topic.TopicName;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -17,6 +15,16 @@ public class Topic {
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
 
+    public Topic(TopicName topicName) {
+        this.topicId = UUID.randomUUID();
+        this.topicName = topicName;
+    }
+
+    //Hibernate required
+    public Topic() {
+
+    }
+
     public UUID getTopicId() {
         return topicId;
     }
@@ -24,4 +32,5 @@ public class Topic {
     public TopicName getTopicName() {
         return topicName;
     }
+
 }

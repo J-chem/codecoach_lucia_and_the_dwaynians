@@ -1,7 +1,7 @@
 package com.switchfully.codecoach.service.session.dto.mapper;
 
 import com.switchfully.codecoach.domain.session.Session;
-import com.switchfully.codecoach.domain.user.Topic;
+import com.switchfully.codecoach.domain.topic.Topic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.service.session.dto.CreateSessionDto;
 import com.switchfully.codecoach.service.session.dto.SessionDto;
@@ -27,7 +27,7 @@ public class SessionMapper {
         return new SessionDto(
                 session.getId(),
                 session.getCoach().getFullName(),
-                session.getTopic().getTopicName(),
+                session.getTopic().getTopicName().name(),
                 session.getDate(),
                 session.getTime(),
                 session.getLocation(),

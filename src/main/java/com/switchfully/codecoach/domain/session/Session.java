@@ -1,8 +1,7 @@
 package com.switchfully.codecoach.domain.session;
 
-import com.switchfully.codecoach.domain.user.Topic;
+import com.switchfully.codecoach.domain.topic.Topic;
 import com.switchfully.codecoach.domain.user.User;
-
 
 import javax.persistence.*;
 import java.time.LocalDate;
