@@ -1,7 +1,8 @@
-package com.switchfully.codecoach.service.user.dto.mapper;
+package com.switchfully.codecoach.service.coachinfo.mapper;
 
-import com.switchfully.codecoach.domain.user.CoachInfo;
-import com.switchfully.codecoach.service.user.dto.CoachInfoDto;
+import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
+import com.switchfully.codecoach.service.coachinfotopic.mapper.CoachInfoTopicMapper;
+import com.switchfully.codecoach.service.coachinfo.dto.CoachInfoDto;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

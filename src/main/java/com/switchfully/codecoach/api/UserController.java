@@ -1,5 +1,6 @@
 package com.switchfully.codecoach.api;
 
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +35,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('BECOME_A_COACH')")
     @ResponseStatus(HttpStatus.CREATED)
     public void becomeACoach(@PathVariable("id") UUID uuid) {
+        System.out.println(uuid);
         userService.becomeACoach(uuid);
     }
 
@@ -42,6 +45,13 @@ public class UserController {
         return userService.createUser(createUserDto);
     }
 
+    @GetMapping(params = "coach")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('REQUEST_SESSION')")
+    public List<CoachDto> getAllCoaches(@RequestParam boolean coach){
+        List<CoachDto> coaches = userService.getByCoachesStatus(coach);
+        return coaches;
+    }
 
 
 

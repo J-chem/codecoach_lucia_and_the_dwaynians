@@ -1,13 +1,15 @@
 package com.switchfully.codecoach.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,14 +21,22 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc()
 @Transactional
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserControllerEndToEndTest {
 
     @Autowired
@@ -36,6 +46,20 @@ class UserControllerEndToEndTest {
     UserRepository userRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeAll
+    void createUsers() {
+        UUID idOne = UUID.randomUUID();
+        UUID idTwo = UUID.randomUUID();
+        UUID idThree = UUID.randomUUID();
+
+        User user1 = new User(idOne, "One", "One", "one@email.com", "One");
+        User user2 = new User(idTwo, "Two", "Two", "two@email.com", "Two");
+        User user3 = new User(idThree, "Three", "Three", "three@email.com", "Three");
+        user1.setIsCoach(true);
+        user2.setIsCoach(true);
+        userRepository.saveAll(List.of(user1, user2, user3));
+    }
 
     @Test
     @WithAnonymousUser
@@ -56,19 +80,19 @@ class UserControllerEndToEndTest {
         UserDto testUser = objectMapper.readValue(response, UserDto.class);
         User user = userRepository.getById(testUser.id());
 
-        Assertions.assertThat(testUser.id()).isNotNull();
-        Assertions.assertThat(testUser.firstName()).isEqualTo("Laurie");
-        Assertions.assertThat(testUser.lastName()).isEqualTo("TestingIsCool");
-        Assertions.assertThat(testUser.email()).isEqualTo("laurie@test.com");
-        Assertions.assertThat(testUser.team()).isEqualTo("Douane");
-        Assertions.assertThat(testUser.isCoach()).isFalse();
+        assertThat(testUser.id()).isNotNull();
+        assertThat(testUser.firstName()).isEqualTo("Laurie");
+        assertThat(testUser.lastName()).isEqualTo("TestingIsCool");
+        assertThat(testUser.email()).isEqualTo("laurie@test.com");
+        assertThat(testUser.team()).isEqualTo("Douane");
+        assertThat(testUser.isCoach()).isFalse();
 
-        Assertions.assertThat(testUser.id()).isEqualTo(user.getId());
-        Assertions.assertThat(user.getFirstName()).isEqualTo("Laurie");
-        Assertions.assertThat(user.getLastName()).isEqualTo("TestingIsCool");
-        Assertions.assertThat(user.getEmail()).isEqualTo("laurie@test.com");
-        Assertions.assertThat(user.getTeam()).isEqualTo("Douane");
-        Assertions.assertThat(user.isCoach()).isFalse();
+        assertThat(testUser.id()).isEqualTo(user.getId());
+        assertThat(user.getFirstName()).isEqualTo("Laurie");
+        assertThat(user.getLastName()).isEqualTo("TestingIsCool");
+        assertThat(user.getEmail()).isEqualTo("laurie@test.com");
+        assertThat(user.getTeam()).isEqualTo("Douane");
+        assertThat(user.isCoach()).isFalse();
 
     }
 
@@ -97,11 +121,12 @@ class UserControllerEndToEndTest {
 
         System.out.println(user);
 
-        Assertions.assertThat(user.isCoach()).isTrue();
-        Assertions.assertThat(user.getCoachInfo()).isNotNull();
-        Assertions.assertThat(user.getCoachInfo().getId()).isNotNull();
-        Assertions.assertThat(user.getCoachInfo().getAvailability()).isNull();
-        Assertions.assertThat(user.getCoachInfo().getIntroduction()).isNull();
+        assertThat(user.isCoach()).isTrue();
+        assertThat(user.getCoachInfo()).isNotNull();
+        assertThat(user.getCoachInfo().getId()).isNotNull();
+        assertThat(user.getCoachInfo().getAvailability()).isNull();
+        assertThat(user.getCoachInfo().getIntroduction()).isNull();
+
     }
 
     @Test
@@ -134,5 +159,22 @@ class UserControllerEndToEndTest {
         Assertions.assertThat(user.getCoachInfo().getIntroduction()).isNull();
         Assertions.assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
 
+    }
+}
+
+    @Test
+    @WithMockUser(authorities = "REQUEST_SESSION")
+    void getAllCoaches() throws Exception {
+
+        var result = mockMvc.perform(
+                        get("/users").param("coach", "true")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        List<CoachDto> response = objectMapper.readValue(result.andReturn().getResponse().getContentAsString(), new TypeReference<List<CoachDto>>() {
+        });
+        assertThat(response.get(0).getFirstName()).isEqualTo("One");
+        assertThat(response.get(1).getFirstName()).isEqualTo("Two");
     }
 }
