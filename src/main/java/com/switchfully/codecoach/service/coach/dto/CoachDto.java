@@ -1,14 +1,16 @@
 package com.switchfully.codecoach.service.coach.dto;
 
+import com.switchfully.codecoach.service.topic.dto.TopicDto;
+
 import java.util.List;
 import java.util.UUID;
 
-public class CoachDTO {
+public class CoachDto {
     private UUID id;
     private String firstName;
     private String lastName;
     private String email;
-    private List<TopicDTO> topics;
+    private List<TopicDto> topics;
 
     public UUID getId() {
         return id;
@@ -26,31 +28,31 @@ public class CoachDTO {
         return email;
     }
 
-    public List<TopicDTO> getTopics() {
+    public List<TopicDto> getTopics() {
         return topics;
     }
 
-    public CoachDTO setId(UUID id) {
+    public CoachDto setId(UUID id) {
         this.id = id;
         return this;
     }
 
-    public CoachDTO setFirstName(String firstName) {
+    public CoachDto setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public CoachDTO setLastName(String lastName) {
+    public CoachDto setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
 
-    public CoachDTO setEmail(String email) {
+    public CoachDto setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public CoachDTO setTopics(List<TopicDTO> topics) {
+    public CoachDto setTopics(List<TopicDto> topics) {
         this.topics = topics;
         return this;
     }

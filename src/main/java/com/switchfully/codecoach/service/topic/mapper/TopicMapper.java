@@ -1,8 +1,7 @@
-package com.switchfully.codecoach.service.user.dto.mapper;
+package com.switchfully.codecoach.service.topic.mapper;
 
-import com.switchfully.codecoach.domain.user.Topic;
-import com.switchfully.codecoach.service.coach.dto.TopicDTO;
-import com.switchfully.codecoach.service.user.dto.TopicDto;
+import com.switchfully.codecoach.domain.topic.Topic;
+import com.switchfully.codecoach.service.topic.dto.TopicDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.switchfully.codecoach.service;
+package com.switchfully.codecoach.service.topic;
 
 import com.switchfully.codecoach.repository.TopicRepository;
-import com.switchfully.codecoach.service.user.dto.TopicDto;
-import com.switchfully.codecoach.service.user.dto.mapper.TopicMapper;
+import com.switchfully.codecoach.service.topic.dto.TopicDto;
+import com.switchfully.codecoach.service.topic.mapper.TopicMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

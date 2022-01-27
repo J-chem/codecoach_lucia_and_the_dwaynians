@@ -1,4 +1,6 @@
-package com.switchfully.codecoach.domain.user;
+package com.switchfully.codecoach.domain.topic;
+
+import com.switchfully.codecoach.domain.topic.TopicName;
 
 import javax.persistence.*;
 import java.util.UUID;

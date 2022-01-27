@@ -1,9 +1,8 @@
 package com.switchfully.codecoach.repository;
 
-import com.switchfully.codecoach.domain.user.CoachInfoTopic;
+import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 

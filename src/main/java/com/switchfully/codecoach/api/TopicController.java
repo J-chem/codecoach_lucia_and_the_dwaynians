@@ -1,10 +1,8 @@
 package com.switchfully.codecoach.api;
 
 
-import com.switchfully.codecoach.service.TopicService;
-import com.switchfully.codecoach.service.coach.dto.CoachDTO;
-import com.switchfully.codecoach.service.coach.dto.TopicDTO;
-import com.switchfully.codecoach.service.user.dto.TopicDto;
+import com.switchfully.codecoach.service.topic.TopicService;
+import com.switchfully.codecoach.service.topic.dto.TopicDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;

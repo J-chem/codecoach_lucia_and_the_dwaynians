@@ -1,21 +1,21 @@
 package com.switchfully.codecoach.service.user;
 
-import com.switchfully.codecoach.domain.user.CoachInfo;
-import com.switchfully.codecoach.domain.user.CoachInfoTopic;
+import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
+import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
-import com.switchfully.codecoach.service.coach.dto.CoachDTO;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.security.KeycloakService;
 import com.switchfully.codecoach.service.security.Role;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
-import com.switchfully.codecoach.service.user.dto.KeycloakUserDTO;
+import com.switchfully.codecoach.service.security.dto.KeycloakUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
-import com.switchfully.codecoach.service.user.dto.mapper.CoachDTOMapper;
-import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
-import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
+import com.switchfully.codecoach.service.coach.mapper.CoachMapper;
+import com.switchfully.codecoach.service.security.mapper.KeycloakMapper;
+import com.switchfully.codecoach.service.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public class UserService {
     }
 
     private String addPersonToKeycloak(CreateUserDto createUserDto) {
-        KeycloakUserDTO keycloakUserDTO = keycloakMapper.map(createUserDto, Role.COACHEE);
+        KeycloakUserDto keycloakUserDTO = keycloakMapper.map(createUserDto, Role.COACHEE);
         return keycloakService.addUser(keycloakUserDTO);
     }
 
@@ -80,10 +80,10 @@ public class UserService {
         keycloakService.updateUserRoleToCoach(uuid);
     }
 
-    public List<CoachDTO> getByCoachesStatus(boolean isCoach) {
+    public List<CoachDto> getByCoachesStatus(boolean isCoach) {
         List<User> coaches = userRepository.getByIsCoach(isCoach);
         List<CoachInfoTopic> coachInfos = coachInfoTopicRepository.findAll();
-        return CoachDTOMapper.map(coaches, coachInfos);
+        return CoachMapper.map(coaches, coachInfos);
     }
     public UserDto getUserById(UUID uuid) {
         return userMapper.map(userRepository.getById(uuid));

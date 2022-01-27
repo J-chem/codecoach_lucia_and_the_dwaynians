@@ -1,4 +1,4 @@
-package com.switchfully.codecoach.domain.user;
+package com.switchfully.codecoach.domain.coachinfotopic;
 
 public enum Expertise {
     JUNIOR,

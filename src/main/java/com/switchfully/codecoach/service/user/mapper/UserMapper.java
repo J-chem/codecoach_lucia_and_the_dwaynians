@@ -1,6 +1,7 @@
-package com.switchfully.codecoach.service.user.dto.mapper;
+package com.switchfully.codecoach.service.user.mapper;
 
 import com.switchfully.codecoach.domain.user.User;
+import com.switchfully.codecoach.service.coachinfo.mapper.CoachInfoMapper;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.springframework.stereotype.Component;

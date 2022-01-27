@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.UserRepository;
-import com.switchfully.codecoach.service.coach.dto.CoachDTO;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -138,7 +138,7 @@ class UserControllerEndToEndTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
 
-        List<CoachDTO> response = objectMapper.readValue(result.andReturn().getResponse().getContentAsString(), new TypeReference<List<CoachDTO>>() {
+        List<CoachDto> response = objectMapper.readValue(result.andReturn().getResponse().getContentAsString(), new TypeReference<List<CoachDto>>() {
         });
         assertThat(response.get(0).getFirstName()).isEqualTo("One");
         assertThat(response.get(1).getFirstName()).isEqualTo("Two");
