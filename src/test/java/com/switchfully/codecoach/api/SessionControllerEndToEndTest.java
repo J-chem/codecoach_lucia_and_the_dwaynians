@@ -91,7 +91,7 @@ public class SessionControllerEndToEndTest {
         Assertions.assertThat(resultSessionDto.date()).isEqualTo(date);
         Assertions.assertThat(resultSessionDto.time()).isEqualTo(time);
         Assertions.assertThat(resultSessionDto.coachFullName()).isEqualTo(coach.getFullName());
-        Assertions.assertThat(resultSessionDto.topicName()).isEqualTo(topic.getTopicName().name());
+        Assertions.assertThat(resultSessionDto.topicName()).isEqualTo(topic.getTopicName());
     }
 
 }
