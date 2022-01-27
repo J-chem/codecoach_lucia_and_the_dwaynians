@@ -1,0 +1,10 @@
+package com.switchfully.codecoach.service.coachinfotopic.dto;
+
+import com.switchfully.codecoach.domain.coachinfotopic.Expertise;
+import com.switchfully.codecoach.service.topic.dto.TopicDto;
+
+import java.util.UUID;
+
+public record CoachInfoTopicDto(UUID coachInfoTopicId, TopicDto topicDto, Expertise expertise) {
+
+}

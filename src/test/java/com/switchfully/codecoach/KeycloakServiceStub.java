@@ -1,7 +1,7 @@
 package com.switchfully.codecoach;
 
 import com.switchfully.codecoach.service.security.KeycloakService;
-import com.switchfully.codecoach.service.user.dto.KeycloakUserDTO;
+import com.switchfully.codecoach.service.security.dto.KeycloakUserDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Profile("test")
 public class KeycloakServiceStub implements KeycloakService {
     @Override
-    public String addUser(KeycloakUserDTO keycloakUserDTO) {
+    public String addUser(KeycloakUserDto keycloakUserDTO) {
         return UUID.randomUUID().toString();
     }
 

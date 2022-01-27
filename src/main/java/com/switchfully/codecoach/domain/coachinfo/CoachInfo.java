@@ -1,4 +1,6 @@
-package com.switchfully.codecoach.domain.user;
+package com.switchfully.codecoach.domain.coachinfo;
+
+import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 
 import javax.persistence.*;
 import java.util.List;
@@ -44,5 +46,9 @@ public class CoachInfo {
 
     public String getAvailability() {
         return availability;
+    }
+
+    public List<CoachInfoTopic> getCoachInfoTopics() {
+        return coachInfoTopics;
     }
 }

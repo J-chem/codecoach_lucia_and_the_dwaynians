@@ -1,21 +1,27 @@
 package com.switchfully.codecoach.service.user;
 
-import com.switchfully.codecoach.domain.user.CoachInfo;
+import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
+import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.CoachInfoRepository;
+import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.security.KeycloakService;
 import com.switchfully.codecoach.service.security.Role;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
-import com.switchfully.codecoach.service.user.dto.KeycloakUserDTO;
+import com.switchfully.codecoach.service.security.dto.KeycloakUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
-import com.switchfully.codecoach.service.user.dto.mapper.KeycloakMapper;
-import com.switchfully.codecoach.service.user.dto.mapper.UserMapper;
+import com.switchfully.codecoach.service.coach.mapper.CoachMapper;
+import com.switchfully.codecoach.service.security.mapper.KeycloakMapper;
+import com.switchfully.codecoach.service.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.UUID;
+import java.util.List;
+
+import javax.transaction.Transactional;
 
 
 @Service
@@ -27,14 +33,17 @@ public class UserService {
     private final KeycloakMapper keycloakMapper;
     private final KeycloakService keycloakService;
     private final CoachInfoRepository coachInfoRepository;
+    private final CoachInfoTopicRepository coachInfoTopicRepository;
+
 
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
-                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository) {
+                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository, CoachInfoTopicRepository coachInfoTopicRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.keycloakMapper = keycloakMapper;
         this.keycloakService = keycloakService;
         this.coachInfoRepository = coachInfoRepository;
+        this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
@@ -42,7 +51,7 @@ public class UserService {
         CreateUserDto validUser = assertUserIsValid(createUserDto);
         String keycloakId = addPersonToKeycloak(validUser);
         User user = userMapper.map(validUser, UUID.fromString(keycloakId));
-        if (userRepository.findByEmail(createUserDto.email()) != null) {
+        if (userRepository.findByEmail(createUserDto.email()) != null){
             throw new UserAlreadyExistsException("Email is already in use");
         }
         userRepository.save(user);
@@ -58,7 +67,7 @@ public class UserService {
     }
 
     private String addPersonToKeycloak(CreateUserDto createUserDto) {
-        KeycloakUserDTO keycloakUserDTO = keycloakMapper.map(createUserDto, Role.COACHEE);
+        KeycloakUserDto keycloakUserDTO = keycloakMapper.map(createUserDto, Role.COACHEE);
         return keycloakService.addUser(keycloakUserDTO);
     }
 
@@ -69,6 +78,12 @@ public class UserService {
         user.setIsCoach(true);
         user.setCoachInfo(coachInfo);
         keycloakService.updateUserRoleToCoach(uuid);
+    }
+
+    public List<CoachDto> getByCoachesStatus(boolean isCoach) {
+        List<User> coaches = userRepository.getByIsCoach(isCoach);
+        List<CoachInfoTopic> coachInfos = coachInfoTopicRepository.findAll();
+        return CoachMapper.map(coaches, coachInfos);
     }
 
     public User getUserById(UUID id) {

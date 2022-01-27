@@ -1,5 +1,7 @@
 package com.switchfully.codecoach.domain.user;
 
+import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
+
 import javax.persistence.*;
 import java.util.UUID;
 

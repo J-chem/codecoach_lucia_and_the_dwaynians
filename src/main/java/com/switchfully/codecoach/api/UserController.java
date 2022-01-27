@@ -1,5 +1,6 @@
 package com.switchfully.codecoach.api;
 
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,6 +22,14 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping(path = "/{id}")
+    @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
+        UserDto userDto = userService.getUserById(uuid);
+        return userDto;
     }
 
     @PostMapping(path = "/{id}/become-a-coach")
@@ -35,6 +45,15 @@ public class UserController {
     public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
         UserDto createdUser = userService.createUser(createUserDto);
         return createdUser;
-
     }
+
+    @GetMapping(params = "coach")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('REQUEST_SESSION')")
+    public List<CoachDto> getAllCoaches(@RequestParam boolean coach){
+        List<CoachDto> coaches = userService.getByCoachesStatus(coach);
+        return coaches;
+    }
+
+
 }
