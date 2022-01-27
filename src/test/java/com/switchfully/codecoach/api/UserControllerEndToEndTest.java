@@ -1,10 +1,10 @@
 package com.switchfully.codecoach.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.repository.UserRepository;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -154,13 +153,13 @@ class UserControllerEndToEndTest {
 
         User user = userRepository.getById(userDto.id());
 
-        Assertions.assertThat(user.isCoach()).isTrue();
-        Assertions.assertThat(user.getCoachInfo()).isNotNull();
-        Assertions.assertThat(user.getCoachInfo().getIntroduction()).isNull();
-        Assertions.assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
+        assertThat(user.isCoach()).isTrue();
+        assertThat(user.getCoachInfo()).isNotNull();
+        assertThat(user.getCoachInfo().getIntroduction()).isNull();
+        assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
 
     }
-}
+
 
     @Test
     @WithMockUser(authorities = "REQUEST_SESSION")
