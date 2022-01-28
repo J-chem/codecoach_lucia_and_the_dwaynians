@@ -29,16 +29,17 @@ public class UserService {
     private final KeycloakMapper keycloakMapper;
     private final KeycloakService keycloakService;
     private final CoachInfoRepository coachInfoRepository;
-
+    private final CoachInfoTopicRepository coachInfoTopicRepository;
 
 
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
-                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository) {
+                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository, CoachInfoTopicRepository coachInfoTopicRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.keycloakMapper = keycloakMapper;
         this.keycloakService = keycloakService;
         this.coachInfoRepository = coachInfoRepository;
+        this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
@@ -80,7 +81,13 @@ public class UserService {
         return coaches.stream().map(userMapper::map).toList();
     }
 
-    public UserDto getUserById(UUID uuid) {
-        return userMapper.map(userRepository.getById(uuid));
+    public User getUserById(UUID id) {
+        return userRepository.getById(id);
     }
+
+    public UserDto getUserDtoById(UUID id) {
+        return userMapper.map(getUserById(id));
+    }
+
+
 }

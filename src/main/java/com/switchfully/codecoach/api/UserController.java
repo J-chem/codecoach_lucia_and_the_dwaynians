@@ -1,5 +1,6 @@
 package com.switchfully.codecoach.api;
 
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
@@ -26,8 +27,8 @@ public class UserController {
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
-        UserDto userDto = userService.getUserById(uuid);
+    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid) {
+        UserDto userDto = userService.getUserDtoById(uuid);
         return userDto;
     }
 
@@ -53,6 +54,4 @@ public class UserController {
         List<UserDto> coaches = userService.getByIsCoach(coach);
         return coaches;
     }
-
-
 }
