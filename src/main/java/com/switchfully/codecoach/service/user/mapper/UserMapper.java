@@ -49,4 +49,5 @@ public class UserMapper {
                 coachInfoMapper.map(user.getCoachInfo())
         );
     }
+
 }

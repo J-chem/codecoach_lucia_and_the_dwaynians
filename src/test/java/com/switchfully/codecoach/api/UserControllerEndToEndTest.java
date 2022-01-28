@@ -3,8 +3,10 @@ package com.switchfully.codecoach.api;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.domain.user.User;
+import com.switchfully.codecoach.repository.CoachInfoRepository;
+import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
-import com.switchfully.codecoach.service.coach.dto.CoachDto;
+import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +45,12 @@ class UserControllerEndToEndTest {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CoachInfoTopicRepository coachInfoTopicRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    CoachInfoRepository coachInfoRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -55,9 +63,22 @@ class UserControllerEndToEndTest {
         User user1 = new User(idOne, "One", "One", "one@email.com", "One");
         User user2 = new User(idTwo, "Two", "Two", "two@email.com", "Two");
         User user3 = new User(idThree, "Three", "Three", "three@email.com", "Three");
-        user1.setIsCoach(true);
-        user2.setIsCoach(true);
+
         userRepository.saveAll(List.of(user1, user2, user3));
+        userService.becomeACoach(idOne);
+        userService.becomeACoach(idTwo);
+
+//        user1 = userRepository.getById(idOne);
+//
+//        var coachInfoOne = coachInfoRepository.getById(user1.getCoachInfo().getId());
+//
+//        UUID topicIDone = UUID.randomUUID();
+//        var topicOne = new Topic(topicIDone, TopicName.JAVA);
+//        var coachInfoTopicOne = new CoachInfoTopic(coachInfoOne, topicOne, Expertise.JUNIOR);
+//
+//        coachInfoOne.setCoachInfoTopics(List.of(coachInfoTopicOne));
+//
+//        userRepository.save(user1);
     }
 
     @Test
@@ -138,9 +159,11 @@ class UserControllerEndToEndTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
 
-        List<CoachDto> response = objectMapper.readValue(result.andReturn().getResponse().getContentAsString(), new TypeReference<List<CoachDto>>() {
+        List<UserDto> response = objectMapper.readValue(result.andReturn().getResponse().getContentAsString(), new TypeReference<List<UserDto>>() {
         });
-        assertThat(response.get(0).getFirstName()).isEqualTo("One");
-        assertThat(response.get(1).getFirstName()).isEqualTo("Two");
+        System.out.println(response.toString());
+        assertThat(response.get(0).firstName()).isEqualTo("One");
+        assertThat(response.get(1).lastName()).isEqualTo("Two");
+//        assertThat(response.get(0).coachInfoDto().coachInfoTopicDtoList().get(0).topicDto().topicName().name()).isEqualTo("JAVA");
     }
 }

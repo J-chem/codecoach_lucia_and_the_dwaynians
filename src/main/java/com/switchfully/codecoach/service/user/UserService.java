@@ -1,27 +1,23 @@
 package com.switchfully.codecoach.service.user;
 
 import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
-import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 import com.switchfully.codecoach.domain.user.User;
 import com.switchfully.codecoach.exception.UserAlreadyExistsException;
 import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
-import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.security.KeycloakService;
 import com.switchfully.codecoach.service.security.Role;
-import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.security.dto.KeycloakUserDto;
-import com.switchfully.codecoach.service.user.dto.UserDto;
-import com.switchfully.codecoach.service.coach.mapper.CoachMapper;
 import com.switchfully.codecoach.service.security.mapper.KeycloakMapper;
+import com.switchfully.codecoach.service.user.dto.CreateUserDto;
+import com.switchfully.codecoach.service.user.dto.UserDto;
 import com.switchfully.codecoach.service.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-
-import javax.transaction.Transactional;
 
 
 @Service
@@ -33,17 +29,16 @@ public class UserService {
     private final KeycloakMapper keycloakMapper;
     private final KeycloakService keycloakService;
     private final CoachInfoRepository coachInfoRepository;
-    private final CoachInfoTopicRepository coachInfoTopicRepository;
+
 
 
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
-                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository, CoachInfoTopicRepository coachInfoTopicRepository) {
+                       KeycloakService keycloakService, CoachInfoRepository coachInfoRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.keycloakMapper = keycloakMapper;
         this.keycloakService = keycloakService;
         this.coachInfoRepository = coachInfoRepository;
-        this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
@@ -80,11 +75,11 @@ public class UserService {
         keycloakService.updateUserRoleToCoach(uuid);
     }
 
-    public List<CoachDto> getByCoachesStatus(boolean isCoach) {
+    public List<UserDto> getByIsCoach(boolean isCoach) {
         List<User> coaches = userRepository.getByIsCoach(isCoach);
-        List<CoachInfoTopic> coachInfos = coachInfoTopicRepository.findAll();
-        return CoachMapper.map(coaches, coachInfos);
+        return coaches.stream().map(userMapper::map).toList();
     }
+
     public UserDto getUserById(UUID uuid) {
         return userMapper.map(userRepository.getById(uuid));
     }
