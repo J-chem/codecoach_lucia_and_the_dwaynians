@@ -27,7 +27,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ACCESS_PROFILE')")
     @ResponseStatus(HttpStatus.OK)
     public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
-        return userService.getUserById(uuid);
+        return userService.getUserDtoById(uuid);
     }
 
     @PostMapping(path = "/{id}/become-a-coach")

@@ -7,7 +7,6 @@ import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.user.UserService;
-import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
