@@ -1,7 +1,5 @@
 package com.switchfully.codecoach.domain.topic;
 
-import com.switchfully.codecoach.domain.topic.TopicName;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -16,6 +14,14 @@ public class Topic {
     @Enumerated(EnumType.STRING)
     @Column(name = "TOPIC_NAME")
     private TopicName topicName;
+
+    public Topic() {
+    }
+
+    public Topic(UUID topicId, TopicName topicName) {
+        this.topicId = topicId;
+        this.topicName = topicName;
+    }
 
     public UUID getTopicId() {
         return topicId;

@@ -1,6 +1,5 @@
 package com.switchfully.codecoach.api;
 
-import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
@@ -48,11 +47,10 @@ public class UserController {
     @GetMapping(params = "coach")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
-    public List<CoachDto> getAllCoaches(@RequestParam boolean coach){
-        List<CoachDto> coaches = userService.getByCoachesStatus(coach);
+    public List<UserDto> getByIsCoach(@RequestParam boolean coach){
+        List<UserDto> coaches = userService.getByIsCoach(coach);
         return coaches;
     }
-
 
 
 }

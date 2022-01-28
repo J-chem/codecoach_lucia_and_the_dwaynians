@@ -5,6 +5,6 @@ import com.switchfully.codecoach.service.topic.dto.TopicDto;
 
 import java.util.UUID;
 
-public record CoachInfoTopicDto(UUID coachInfoTopicId, TopicDto topicDto, Expertise expertise) {
+public record CoachInfoTopicDto(UUID coachInfoTopicId, TopicDto topic, Expertise expertise) {
 
 }
