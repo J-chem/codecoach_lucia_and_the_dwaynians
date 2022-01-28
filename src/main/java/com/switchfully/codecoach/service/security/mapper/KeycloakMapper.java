@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeycloakMapper {
 
-    public KeycloakUserDto map(CreateUserDto createUserDto, Role role) {
+    public KeycloakUserDto map(CreateUserDto createUser, Role role) {
         return new KeycloakUserDto(
-                createUserDto.email(),
-                createUserDto.password(),
+                createUser.email(),
+                createUser.password(),
                 role);
     }
 }

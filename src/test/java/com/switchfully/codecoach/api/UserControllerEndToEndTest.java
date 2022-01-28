@@ -1,6 +1,5 @@
 package com.switchfully.codecoach.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.switchfully.codecoach.domain.user.User;
@@ -8,6 +7,7 @@ import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.user.UserService;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -154,7 +153,7 @@ class UserControllerEndToEndTest {
     @Test
     @WithMockUser(authorities = {"ACCESS_PROFILE", "BECOME_A_COACH"})
     void myCoachProfile() throws Exception {
-        CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
+        CreateUserDto createUser = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie3@test.com",
                 "password",
                 "Douane");
@@ -163,7 +162,7 @@ class UserControllerEndToEndTest {
                 post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper
-                                .writeValueAsBytes(createUserDto))).andExpect(status().isCreated());
+                                .writeValueAsBytes(createUser))).andExpect(status().isCreated());
 
         String response = result.andReturn().getResponse().getContentAsString();
         UserDto userDto = objectMapper.readValue(response, UserDto.class);
@@ -176,13 +175,13 @@ class UserControllerEndToEndTest {
 
         User user = userRepository.getById(userDto.id());
 
-        Assertions.assertThat(user.isCoach()).isTrue();
-        Assertions.assertThat(user.getCoachInfo()).isNotNull();
-        Assertions.assertThat(user.getCoachInfo().getIntroduction()).isNull();
-        Assertions.assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
+        assertThat(user.isCoach()).isTrue();
+        assertThat(user.getCoachInfo()).isNotNull();
+        assertThat(user.getCoachInfo().getIntroduction()).isNull();
+        assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
 
     }
-}
+
 
     @Test
     @WithMockUser(authorities = "REQUEST_SESSION")

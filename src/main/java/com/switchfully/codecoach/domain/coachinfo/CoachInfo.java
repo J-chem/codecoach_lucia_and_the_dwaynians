@@ -26,7 +26,6 @@ public class CoachInfo {
     @JoinColumn(name = "COACH_INFO_ID")
     private List<CoachInfoTopic> coachInfoTopics = new ArrayList<>();
 
-//     method get topics -> convert Coachinfotopics via stream, use dto
 
     public CoachInfo(String introduction, String availability) {
         this.introduction = introduction;
