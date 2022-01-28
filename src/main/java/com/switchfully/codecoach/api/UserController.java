@@ -1,6 +1,5 @@
 package com.switchfully.codecoach.api;
 
-import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.UserService;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
