@@ -24,11 +24,10 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('ACCESS_MY_COACH_PROFILE')")
+    @PreAuthorize("hasAuthority('ACCESS_PROFILE')")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid) {
-        UserDto userDto = userService.getUserDtoById(uuid);
-        return userDto;
+    public UserDto accessMyCoachProfile(@PathVariable("id") UUID uuid){
+        return userService.getUserById(uuid);
     }
 
     @PostMapping(path = "/{id}/become-a-coach")
@@ -42,8 +41,7 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody CreateUserDto createUserDto) {
-        UserDto createdUser = userService.createUser(createUserDto);
-        return createdUser;
+        return userService.createUser(createUserDto);
     }
 
     @GetMapping(params = "coach")
@@ -53,4 +51,6 @@ public class UserController {
         List<UserDto> coaches = userService.getByIsCoach(coach);
         return coaches;
     }
+
+
 }

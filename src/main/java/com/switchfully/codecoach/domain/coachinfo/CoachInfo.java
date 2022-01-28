@@ -3,6 +3,7 @@ package com.switchfully.codecoach.domain.coachinfo;
 import com.switchfully.codecoach.domain.coachinfotopic.CoachInfoTopic;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +24,8 @@ public class CoachInfo {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "COACH_INFO_ID")
-    private List<CoachInfoTopic> coachInfoTopics;
+    private List<CoachInfoTopic> coachInfoTopics = new ArrayList<>();
 
-//     method get topics -> convert Coachinfotopics via stream, use dto
 
     public CoachInfo(String introduction, String availability) {
         this.introduction = introduction;

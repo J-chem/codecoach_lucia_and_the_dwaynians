@@ -7,6 +7,7 @@ import com.switchfully.codecoach.repository.CoachInfoRepository;
 import com.switchfully.codecoach.repository.CoachInfoTopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.user.UserService;
+import com.switchfully.codecoach.service.coach.dto.CoachDto;
 import com.switchfully.codecoach.service.user.dto.CreateUserDto;
 import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -148,6 +149,39 @@ class UserControllerEndToEndTest {
         assertThat(user.getCoachInfo().getIntroduction()).isNull();
 
     }
+
+    @Test
+    @WithMockUser(authorities = {"ACCESS_PROFILE", "BECOME_A_COACH"})
+    void myCoachProfile() throws Exception {
+        CreateUserDto createUser = new CreateUserDto("Laurie", "TestingIsCool",
+                "laurie3@test.com",
+                "password",
+                "Douane");
+
+        ResultActions result = mockMvc.perform(
+                post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper
+                                .writeValueAsBytes(createUser))).andExpect(status().isCreated());
+
+        String response = result.andReturn().getResponse().getContentAsString();
+        UserDto userDto = objectMapper.readValue(response, UserDto.class);
+
+        System.out.println(userDto.firstName() + userDto.id());
+        mockMvc.perform(post("/users/" + userDto.id() + "/become-a-coach"))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/users/" + userDto.id())).andExpect(status().isOk());
+
+        User user = userRepository.getById(userDto.id());
+
+        assertThat(user.isCoach()).isTrue();
+        assertThat(user.getCoachInfo()).isNotNull();
+        assertThat(user.getCoachInfo().getIntroduction()).isNull();
+        assertThat(user.getCoachInfo().getCoachInfoTopics()).isNotNull();
+
+    }
+
 
     @Test
     @WithMockUser(authorities = "REQUEST_SESSION")

@@ -18,6 +18,6 @@ public class CoachInfoMapper {
 
     public CoachInfoDto map(CoachInfo coachInfo) {
         return new CoachInfoDto(coachInfo.getId(), coachInfo.getIntroduction(), coachInfo.getAvailability(), coachInfo.getCoachInfoTopics().stream()
-                .map(coachInfoTopic -> coachInfoTopicMapper.map(coachInfoTopic)).collect(Collectors.toList()));
+                .map(coachInfoTopicMapper::map).collect(Collectors.toList()));
     }
 }

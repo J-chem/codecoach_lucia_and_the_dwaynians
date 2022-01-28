@@ -42,12 +42,12 @@ public class UserService {
         this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
-    public UserDto createUser(CreateUserDto createUserDto) {
+    public UserDto createUser(CreateUserDto createUser) {
 
-        CreateUserDto validUser = assertUserIsValid(createUserDto);
+        CreateUserDto validUser = assertUserIsValid(createUser);
         String keycloakId = addPersonToKeycloak(validUser);
         User user = userMapper.map(validUser, UUID.fromString(keycloakId));
-        if (userRepository.findByEmail(createUserDto.email()) != null){
+        if (userRepository.findByEmail(createUser.email()) != null){
             throw new UserAlreadyExistsException("Email is already in use");
         }
         userRepository.save(user);
@@ -55,15 +55,15 @@ public class UserService {
         return userMapper.map(userRepository.getById(user.getId()));
     }
 
-    private CreateUserDto assertUserIsValid(CreateUserDto createUserDto) {
-        if (createUserDto.firstName() == null || createUserDto.lastName() == null || createUserDto.email() == null || createUserDto.password() == null || createUserDto.team() == null) {
+    private CreateUserDto assertUserIsValid(CreateUserDto createUser) {
+        if (createUser.firstName() == null || createUser.lastName() == null || createUser.email() == null || createUser.password() == null || createUser.team() == null) {
             throw new IllegalArgumentException("Please provide input for all fields");
         }
-        return createUserDto;
+        return createUser;
     }
 
-    private String addPersonToKeycloak(CreateUserDto createUserDto) {
-        KeycloakUserDto keycloakUserDTO = keycloakMapper.map(createUserDto, Role.COACHEE);
+    private String addPersonToKeycloak(CreateUserDto createUser) {
+        KeycloakUserDto keycloakUserDTO = keycloakMapper.map(createUser, Role.COACHEE);
         return keycloakService.addUser(keycloakUserDTO);
     }
 
