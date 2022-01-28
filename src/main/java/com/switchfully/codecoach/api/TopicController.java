@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/topics", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/topics", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class TopicController {
 
