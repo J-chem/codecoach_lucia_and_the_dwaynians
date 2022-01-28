@@ -17,13 +17,13 @@ public class UserMapper {
         this.coachInfoMapper = coachInfoMapper;
     }
 
-    public User map(CreateUserDto createUserDto, UUID id) {
+    public User map(CreateUserDto createUser, UUID id) {
         return new User(
                 id,
-                createUserDto.firstName(),
-                createUserDto.lastName(),
-                createUserDto.email(),
-                createUserDto.team()
+                createUser.firstName(),
+                createUser.lastName(),
+                createUser.email(),
+                createUser.team()
         );
     }
 

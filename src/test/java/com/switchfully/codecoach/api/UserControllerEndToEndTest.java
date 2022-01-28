@@ -129,9 +129,9 @@ class UserControllerEndToEndTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ACCESS_MY_COACH_PROFILE", "BECOME_A_COACH"})
+    @WithMockUser(authorities = {"ACCESS_PROFILE", "BECOME_A_COACH"})
     void myCoachProfile() throws Exception {
-        CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
+        CreateUserDto createUser = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie3@test.com",
                 "password",
                 "Douane");
@@ -140,7 +140,7 @@ class UserControllerEndToEndTest {
                 post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper
-                                .writeValueAsBytes(createUserDto))).andExpect(status().isCreated());
+                                .writeValueAsBytes(createUser))).andExpect(status().isCreated());
 
         String response = result.andReturn().getResponse().getContentAsString();
         UserDto userDto = objectMapper.readValue(response, UserDto.class);
