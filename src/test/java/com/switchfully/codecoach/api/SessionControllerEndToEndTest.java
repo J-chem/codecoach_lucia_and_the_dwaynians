@@ -61,10 +61,10 @@ public class SessionControllerEndToEndTest {
         topic = new Topic(UUID.randomUUID(),TopicName.JAVA);
         topicRepository.save(topic);
 
-        coachee = new User(UUID.randomUUID(), "Jon", "Snow", "jon@snow.com", "team");
+        coachee = new User(UUID.randomUUID(), "Jon", "Snow", "jon@snow.com", "team", "test");
         userRepository.save(coachee);
 
-        coach = new User(UUID.randomUUID(), "Jon", "Coach", "jon@coach.com", "team coach");
+        coach = new User(UUID.randomUUID(), "Jon", "Coach", "jon@coach.com", "team coach", "test");
         CoachInfo coachInfo = new CoachInfo();
         coach.setCoachInfo(coachInfo);
         coach.setIsCoach(true);

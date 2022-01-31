@@ -60,9 +60,9 @@ class UserControllerEndToEndTest {
         UUID idTwo = UUID.randomUUID();
         UUID idThree = UUID.randomUUID();
 
-        User user1 = new User(idOne, "One", "One", "one@email.com", "One");
-        User user2 = new User(idTwo, "Two", "Two", "two@email.com", "Two");
-        User user3 = new User(idThree, "Three", "Three", "three@email.com", "Three");
+        User user1 = new User(idOne, "One", "One", "one@email.com", "One", "one");
+        User user2 = new User(idTwo, "Two", "Two", "two@email.com", "Two", "two");
+        User user3 = new User(idThree, "Three", "Three", "three@email.com", "Three", "three");
 
         userRepository.saveAll(List.of(user1, user2, user3));
         userService.becomeACoach(idOne);
@@ -88,7 +88,8 @@ class UserControllerEndToEndTest {
         CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie@test.com",
                 "password",
-                "Douane");
+                "Douane",
+                "test");
 
         ResultActions result = mockMvc.perform(
                 post("/users")
@@ -123,7 +124,8 @@ class UserControllerEndToEndTest {
         CreateUserDto createUserDto = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie2@test.com",
                 "password",
-                "Douane");
+                "Douane",
+                "test");
 
         ResultActions result = mockMvc.perform(
                 post("/users")
@@ -156,7 +158,8 @@ class UserControllerEndToEndTest {
         CreateUserDto createUser = new CreateUserDto("Laurie", "TestingIsCool",
                 "laurie3@test.com",
                 "password",
-                "Douane");
+                "Douane",
+                "test");
 
         ResultActions result = mockMvc.perform(
                 post("/users")
@@ -219,7 +222,7 @@ class UserControllerEndToEndTest {
     @Test
     @WithAnonymousUser
     void isUserEmailTaken_givenUsedEmail_thenReturnsTrue() throws Exception {
-        User user1 = new User(UUID.randomUUID(), "One", "One", "maderolucia@gmail.com", "One");
+        User user1 = new User(UUID.randomUUID(), "One", "One", "maderolucia@gmail.com", "One", "one");
         userRepository.save(user1);
 
         ResultActions result = mockMvc.perform(
