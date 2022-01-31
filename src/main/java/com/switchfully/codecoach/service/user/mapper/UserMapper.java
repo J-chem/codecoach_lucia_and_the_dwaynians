@@ -23,7 +23,8 @@ public class UserMapper {
                 createUser.firstName(),
                 createUser.lastName(),
                 createUser.email(),
-                createUser.team()
+                createUser.team(),
+                createUser.profilePicture()
         );
     }
 
@@ -36,7 +37,8 @@ public class UserMapper {
                     user.getEmail(),
                     user.getTeam(),
                     user.isCoach(),
-                    null
+                    null,
+                    user.getProfilePicture()
             );
         }
         return new UserDto(
@@ -46,7 +48,8 @@ public class UserMapper {
                 user.getEmail(),
                 user.getTeam(),
                 user.isCoach(),
-                coachInfoMapper.map(user.getCoachInfo())
+                coachInfoMapper.map(user.getCoachInfo()),
+                user.getProfilePicture()
         );
     }
 

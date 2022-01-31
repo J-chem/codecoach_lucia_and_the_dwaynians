@@ -32,8 +32,10 @@ public class User {
     @JoinColumn(name = "COACH_INFO_FK")
     private CoachInfo coachInfo;
 
+    @Column(name = "PROFILE_PICTURE")
+    private String profilePicture;
 
-    public User(UUID id, String firstName, String lastName, String email, String team) {
+    public User(UUID id, String firstName, String lastName, String email, String team, String profilePicture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +43,7 @@ public class User {
         this.team = team;
         this.isCoach = false;
         this.coachInfo = null;
+        this.profilePicture = profilePicture;
     }
 
     public User() {
@@ -73,6 +76,10 @@ public class User {
 
     public CoachInfo getCoachInfo() {
         return coachInfo;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
     public void setFirstName(String firstName) {
