@@ -45,13 +45,13 @@ class UserControllerEndToEndTest {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     CoachInfoTopicRepository coachInfoTopicRepository;
     @Autowired
     UserService userService;
     @Autowired
     CoachInfoRepository coachInfoRepository;
-
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeAll
@@ -67,6 +67,7 @@ class UserControllerEndToEndTest {
         userRepository.saveAll(List.of(user1, user2, user3));
         userService.becomeACoach(idOne);
         userService.becomeACoach(idTwo);
+
 
 //        user1 = userRepository.getById(idOne);
 //
@@ -198,5 +199,38 @@ class UserControllerEndToEndTest {
         assertThat(response.get(0).firstName()).isEqualTo("One");
         assertThat(response.get(1).lastName()).isEqualTo("Two");
 //        assertThat(response.get(0).coachInfoDto().coachInfoTopicDtoList().get(0).topicDto().topicName().name()).isEqualTo("JAVA");
+    }
+
+    @Test
+    @WithAnonymousUser
+    void isUserEmailTaken_givenUnusedEmail_thenReturnsFalse() throws Exception {
+
+        ResultActions result = mockMvc.perform(
+                post("/users/useremailavailability")
+                        .content("one@emaileuh.com")).andExpect(status().isOk());
+
+        String response = result.andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Boolean isTaken = objectMapper.readValue(response, Boolean.class);
+
+        assertThat(isTaken).isFalse();
+    }
+
+    @Test
+    @WithAnonymousUser
+    void isUserEmailTaken_givenUsedEmail_thenReturnsTrue() throws Exception {
+        User user1 = new User(UUID.randomUUID(), "One", "One", "maderolucia@gmail.com", "One");
+        userRepository.save(user1);
+
+        ResultActions result = mockMvc.perform(
+                post("/users/useremailavailability")
+                        .content(user1.getEmail())).andExpect(status().isOk());
+
+        String response = result.andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Boolean isTaken = objectMapper.readValue(response, Boolean.class);
+
+        assertThat(isTaken).isTrue();
+
     }
 }
