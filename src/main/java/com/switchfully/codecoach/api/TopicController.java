@@ -2,7 +2,7 @@ package com.switchfully.codecoach.api;
 
 
 import com.switchfully.codecoach.service.topic.TopicService;
-import com.switchfully.codecoach.service.topic.dto.TempTopicDto;
+import com.switchfully.codecoach.service.topic.mapper.dto.TopicDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,8 +24,7 @@ public class TopicController {
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
-    public List<TempTopicDto> getAllTopicNames(){
-
+    public List<TopicDto> getAllTopicNames(){
         return topicService.getAllTopicNames();
     }
 }

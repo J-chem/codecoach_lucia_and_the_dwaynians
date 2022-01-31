@@ -1,20 +1,24 @@
 package com.switchfully.codecoach.service.topic;
 
-import com.switchfully.codecoach.domain.topic.TopicName;
-import com.switchfully.codecoach.service.topic.dto.TempTopicDto;
+import com.switchfully.codecoach.repository.TopicRepository;
+import com.switchfully.codecoach.service.topic.mapper.TopicMapper;
+import com.switchfully.codecoach.service.topic.mapper.dto.TopicDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
 
-    public List<TempTopicDto> getAllTopicNames() {
-        return Arrays.stream(TopicName.values())
-                .map(topic -> new TempTopicDto(topic.getId(), topic.name()))
-                .collect(Collectors.toList());
+    private final TopicRepository topicRepository;
+    private final TopicMapper topicMapper;
+
+    public TopicService(TopicRepository topicRepository, TopicMapper topicMapper) {
+        this.topicRepository = topicRepository;
+        this.topicMapper = topicMapper;
     }
 
+    public List<TopicDto> getAllTopicNames() {
+        return topicMapper.map(topicRepository.findAll());
+    }
 }

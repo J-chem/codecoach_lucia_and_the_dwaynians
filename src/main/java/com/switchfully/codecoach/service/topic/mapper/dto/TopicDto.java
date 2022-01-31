@@ -1,4 +1,4 @@
-package com.switchfully.codecoach.service.topic.dto;
+package com.switchfully.codecoach.service.topic.mapper.dto;
 
 import com.switchfully.codecoach.domain.topic.TopicName;
 
