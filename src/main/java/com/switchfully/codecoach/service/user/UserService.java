@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,7 +30,6 @@ public class UserService {
     private final KeycloakMapper keycloakMapper;
     private final KeycloakService keycloakService;
     private final CoachInfoRepository coachInfoRepository;
-    private final CoachInfoTopicRepository coachInfoTopicRepository;
 
 
     public UserService(UserMapper userMapper, UserRepository userRepository, KeycloakMapper keycloakMapper,
@@ -39,7 +39,6 @@ public class UserService {
         this.keycloakMapper = keycloakMapper;
         this.keycloakService = keycloakService;
         this.coachInfoRepository = coachInfoRepository;
-        this.coachInfoTopicRepository = coachInfoTopicRepository;
     }
 
     public UserDto createUser(CreateUserDto createUser) {
@@ -47,7 +46,7 @@ public class UserService {
         CreateUserDto validUser = assertUserIsValid(createUser);
         String keycloakId = addPersonToKeycloak(validUser);
         User user = userMapper.map(validUser, UUID.fromString(keycloakId));
-        if (userRepository.findByEmail(createUser.email()) != null){
+        if (isUserEmailTaken(createUser.email())){
             throw new UserAlreadyExistsException("Email is already in use");
         }
         userRepository.save(user);
@@ -89,5 +88,7 @@ public class UserService {
         return userMapper.map(getUserById(id));
     }
 
-
+    public boolean isUserEmailTaken(String userEmail) {
+        return userRepository.findByEmail(userEmail) != null;
+    }
 }

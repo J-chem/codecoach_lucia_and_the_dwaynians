@@ -23,7 +23,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(HttpMethod.POST, "/users").antMatchers(HttpMethod.POST, "/error");
+        web.ignoring().antMatchers(HttpMethod.POST, "/users").antMatchers(HttpMethod.POST, "/error")
+                .antMatchers(HttpMethod.POST, "/users/useremailavailability");
     }
 
 

@@ -48,9 +48,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
     public List<UserDto> getByIsCoach(@RequestParam boolean coach){
-        List<UserDto> coaches = userService.getByIsCoach(coach);
-        return coaches;
+        return userService.getByIsCoach(coach);
     }
 
+    @PostMapping(path = "/useremailavailability")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean isUserEmailTaken(@RequestBody String userEmail) {
+        return userService.isUserEmailTaken(userEmail);
+    }
 
 }
