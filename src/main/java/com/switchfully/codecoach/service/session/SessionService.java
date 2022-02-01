@@ -52,7 +52,7 @@ public class SessionService {
     public List<SessionDto> getSessionsForCoach(UUID coachId) {
         return sessionRepository.findAll()
                 .stream()
-                .filter(session -> session.getCoach().getId() == coachId)
+                .filter(session -> session.getCoach().getId().equals(coachId))
                 .map(sessionMapper::map)
                 .collect(Collectors.toList());
     }
