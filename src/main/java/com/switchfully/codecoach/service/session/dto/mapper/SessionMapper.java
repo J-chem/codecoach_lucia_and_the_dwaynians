@@ -27,6 +27,7 @@ public class SessionMapper {
         return new SessionDto(
                 session.getId(),
                 session.getCoach().getFullName(),
+                session.getCoachee().getFullName(),
                 session.getTopic().getTopicName(),
                 session.getDate(),
                 session.getTime(),

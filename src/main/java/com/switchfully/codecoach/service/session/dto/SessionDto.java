@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public record SessionDto(UUID id, String coachFullName, TopicName topicName, LocalDate date, LocalTime time, Location location,
+public record SessionDto(UUID id, String coachFullName, String coacheeFullName, TopicName topicName, LocalDate date, LocalTime time, Location location,
                          Status status) {
 }
