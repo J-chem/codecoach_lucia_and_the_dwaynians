@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/sessions", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
@@ -24,6 +27,13 @@ public class SessionController {
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
     public SessionDto requestSession(@RequestBody CreateSessionDto createSessionDto) {
         return sessionService.addSession(createSessionDto);
+    }
+
+    @GetMapping(params = "coach")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ACCESS_COACH_SESSIONS')")
+    public List<SessionDto> getCoachSessions(@RequestParam UUID coach) {
+        return sessionService.getSessionsForCoach(coach);
     }
 
 }

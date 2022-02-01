@@ -5,7 +5,7 @@ import java.util.List;
 public enum Role {
 
     COACHEE("coachee", Feature.REQUEST_SESSION, Feature.BECOME_A_COACH, Feature.ACCESS_PROFILE),
-    COACH("coach", Feature.REQUEST_SESSION, Feature.ACCESS_PROFILE);
+    COACH("coach", Feature.REQUEST_SESSION, Feature.ACCESS_PROFILE, Feature.ACCESS_COACH_SESSIONS);
 
     private final String label;
     private final List<Feature> featureList;

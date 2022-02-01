@@ -16,7 +16,9 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -45,6 +47,14 @@ public class SessionService {
                 findUserById(createSessionDto.coacheeId()));
         Session savedSession = sessionRepository.save(sessionToRegister);
         return sessionMapper.map(savedSession);
+    }
+
+    public List<SessionDto> getSessionsForCoach(UUID coachId) {
+        return sessionRepository.findAll()
+                .stream()
+                .filter(session -> session.getCoach().getId() == coachId)
+                .map(sessionMapper::map)
+                .collect(Collectors.toList());
     }
 
     private User findUserById(UUID id) {
