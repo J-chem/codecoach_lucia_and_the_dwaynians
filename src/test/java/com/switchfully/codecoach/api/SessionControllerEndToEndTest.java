@@ -1,17 +1,21 @@
 package com.switchfully.codecoach.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.switchfully.codecoach.domain.coachinfo.CoachInfo;
 import com.switchfully.codecoach.domain.session.Location;
+import com.switchfully.codecoach.domain.session.Session;
 import com.switchfully.codecoach.domain.session.Status;
 import com.switchfully.codecoach.domain.topic.Topic;
 import com.switchfully.codecoach.domain.topic.TopicName;
 import com.switchfully.codecoach.domain.user.User;
+import com.switchfully.codecoach.repository.SessionRepository;
 import com.switchfully.codecoach.repository.TopicRepository;
 import com.switchfully.codecoach.repository.UserRepository;
 import com.switchfully.codecoach.service.session.dto.CreateSessionDto;
 import com.switchfully.codecoach.service.session.dto.SessionDto;
+import com.switchfully.codecoach.service.user.dto.UserDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +31,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,18 +49,21 @@ public class SessionControllerEndToEndTest {
     MockMvc mockMvc;
     TopicRepository topicRepository;
     UserRepository userRepository;
+    SessionRepository sessionRepository;
 
     User coachee;
     User coach;
     Topic topic;
+    List<Session> sessionsToGet;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    public SessionControllerEndToEndTest(MockMvc mockMvc, TopicRepository topicRepository, UserRepository userRepository) {
+    public SessionControllerEndToEndTest(MockMvc mockMvc, TopicRepository topicRepository, UserRepository userRepository, SessionRepository sessionRepository) {
         this.mockMvc = mockMvc;
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
+        this.sessionRepository = sessionRepository;
     }
 
     @BeforeEach
@@ -71,6 +81,7 @@ public class SessionControllerEndToEndTest {
         userRepository.save(coach);
 
         objectMapper.registerModule(new JavaTimeModule());
+        setUpGetCoachSessions();
     }
 
     @Test
@@ -92,6 +103,38 @@ public class SessionControllerEndToEndTest {
         Assertions.assertThat(resultSessionDto.time()).isEqualTo(time);
         Assertions.assertThat(resultSessionDto.coachFullName()).isEqualTo(coach.getFullName());
         Assertions.assertThat(resultSessionDto.topicName()).isEqualTo(topic.getTopicName());
+    }
+
+    @Test
+    @WithMockUser(authorities = "ACCESS_COACH_SESSIONS")
+    void getCoachSessions() throws Exception {
+        String url = "/sessions?coach=" + coach.getId();
+
+        ResultActions result = mockMvc.perform(get(url)).andExpect(status().isOk());
+        String response = result.andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+
+        List<SessionDto> resultSessions = objectMapper.readValue(response, new TypeReference<>() {});
+
+        Assertions.assertThat(resultSessions).hasSize(3);
+    }
+
+    private void setUpGetCoachSessions() {
+        LocalDate date = LocalDate.now().plusDays(4);
+        LocalTime time = LocalTime.now().plusHours(4);
+
+        User coach = userRepository.getById(this.coach.getId());
+        User coachee = userRepository.getById(this.coachee.getId());
+
+        sessionsToGet = new ArrayList<>();
+        Session session1 = new Session(topic, date, time, Location.ONLINE, "This is a remark", coach, coachee);
+        sessionsToGet.add(session1);
+        Session session2 = new Session(topic, date, time, Location.ONLINE, "This is a remark", coach, coachee);
+        sessionsToGet.add(session2);
+        Session session3 = new Session(topic, date, time, Location.ONLINE, "This is a remark", coach, coachee);
+        sessionsToGet.add(session3);
+
+        sessionRepository.saveAll(sessionsToGet);
     }
 
 }
