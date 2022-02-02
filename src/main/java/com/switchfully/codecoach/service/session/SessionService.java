@@ -57,6 +57,14 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
+    public List<SessionDto> getSessionsForCoachee(UUID coacheeId) {
+        return sessionRepository.findAll()
+                .stream()
+                .filter(session -> session.getCoachee().getId().equals(coacheeId))
+                .map(sessionMapper::map)
+                .collect(Collectors.toList());
+    }
+
     private User findUserById(UUID id) {
         return userService.getUserById(id);
     }

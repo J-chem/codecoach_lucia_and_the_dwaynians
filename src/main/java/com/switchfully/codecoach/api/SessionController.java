@@ -37,4 +37,12 @@ public class SessionController {
         return sessionService.getSessionsForCoach(coach);
     }
 
+    @GetMapping(params = "coachee")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ACCESS_COACHEE_SESSIONS')")
+    public List<SessionDto> getCoacheeSessions(@RequestParam UUID coachee) {
+        System.out.println(coachee);
+        return sessionService.getSessionsForCoach(coachee);
+    }
+
 }
