@@ -24,7 +24,7 @@ public class UserMapper {
                 createUser.lastName(),
                 createUser.email(),
                 createUser.team(),
-                createUser.profilePicture()
+                "unknown_picture.jpeg"
         );
     }
 
