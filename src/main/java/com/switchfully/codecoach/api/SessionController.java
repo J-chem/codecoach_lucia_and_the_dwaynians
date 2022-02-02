@@ -33,7 +33,6 @@ public class SessionController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ACCESS_COACH_SESSIONS')")
     public List<SessionDto> getCoachSessions(@RequestParam UUID coach) {
-        System.out.println(coach);
         return sessionService.getSessionsForCoach(coach);
     }
 
@@ -41,7 +40,6 @@ public class SessionController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ACCESS_COACHEE_SESSIONS')")
     public List<SessionDto> getCoacheeSessions(@RequestParam UUID coachee) {
-        System.out.println(coachee);
         return sessionService.getSessionsForCoach(coachee);
     }
 
