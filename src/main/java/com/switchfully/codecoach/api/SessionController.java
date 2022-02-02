@@ -40,7 +40,7 @@ public class SessionController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ACCESS_COACHEE_SESSIONS')")
     public List<SessionDto> getCoacheeSessions(@RequestParam UUID coachee) {
-        return sessionService.getSessionsForCoach(coachee);
+        return sessionService.getSessionsForCoachee(coachee);
     }
 
 }
