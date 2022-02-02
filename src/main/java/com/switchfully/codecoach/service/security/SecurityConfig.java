@@ -21,6 +21,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.ws.rs.HttpMethod;
 import java.util.stream.Collectors;
@@ -95,5 +98,28 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 )
                 .build();
     }
+
+    @Bean
+    CorsFilter corsFilter(@Value("${codecoach.allowed.origins}") String origins) {
+
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setMaxAge(8000L);
+        corsConfig.setAllowCredentials(true);
+        corsConfig.addAllowedOrigin(origins);
+        corsConfig.addAllowedHeader("*");
+        corsConfig.addAllowedMethod("GET");
+        corsConfig.addAllowedMethod("POST");
+        corsConfig.addAllowedMethod("PUT");
+        corsConfig.addAllowedMethod("PATCH");
+        corsConfig.addAllowedMethod("DELETE");
+
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+
+        return new CorsFilter(source);
+    }
+
 
 }
